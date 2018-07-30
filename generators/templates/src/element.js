@@ -17,9 +17,21 @@ class <%= elementClassName %> extends RHElement {
 <%_ } _%>
   }
 
+  // static get observedAttributes() {
+  //   return [];
+  // }
+
   constructor() {
     super(<%= elementClassName %>.tag);
   }
+
+  // connectedCallback() {
+  //   super.connectedCallback();
+  // }
+
+  // disconnectedCallback() {}
+
+  // attributeChangedCallback(attr, oldValue, newValue) {}
 }
 
 RHElement.create(<%= elementClassName %>);
