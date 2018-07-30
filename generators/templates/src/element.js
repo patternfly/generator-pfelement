@@ -20,12 +20,6 @@ class <%= elementClassName %> extends RHElement {
   constructor() {
     super(<%= elementClassName %>.tag);
   }
-
-  // connectedCallback() {
-  //   super.connectedCallback();
-  // }
-
-  // disconnectedCallback() {}
 }
 
 RHElement.create(<%= elementClassName %>);
