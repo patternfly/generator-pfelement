@@ -57,3 +57,5 @@ class <%= elementClassName %> extends RHElement {
 }
 
 RHElement.create(<%= elementClassName %>);
+
+export default <%= elementClassName %>;
