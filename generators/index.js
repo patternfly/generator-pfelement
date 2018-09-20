@@ -57,6 +57,13 @@ module.exports = class extends Generator {
     ]).then(answers => {
       let name = answers.name.split("-")[1];
 
+      const { version: rhelementVersion } = require(this.destinationPath(
+        "rhelement/package.json"
+      ));
+      const { version: rhSassVersion } = require(this.destinationPath(
+        "rh-sass/package.json"
+      ));
+
       this.props = {
         author: answers.author,
         name: answers.name,
@@ -71,7 +78,9 @@ module.exports = class extends Generator {
         useSass: answers.useSass,
         sassLibraryPkg: false,
         sassLibraryPath: false,
-        generatorRhelementVersion: packageJson.version
+        generatorRhelementVersion: packageJson.version,
+        rhelementVersion,
+        rhSassVersion
       };
 
       if (answers.useSass) {
@@ -170,13 +179,17 @@ module.exports = class extends Generator {
     } else {
       this.fs.copy(
         this.templatePath("src/element.css"),
-        this.destinationPath(`${this.props.elementName}/src/${this.props.elementName}.css`)
-      )
+        this.destinationPath(
+          `${this.props.elementName}/src/${this.props.elementName}.css`
+        )
+      );
     }
 
     this.fs.copy(
       this.templatePath("src/element.html"),
-      this.destinationPath(`${this.props.elementName}/src/${this.props.elementName}.html`)
+      this.destinationPath(
+        `${this.props.elementName}/src/${this.props.elementName}.html`
+      )
     );
   }
 

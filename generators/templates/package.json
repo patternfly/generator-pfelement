@@ -4,7 +4,7 @@
     "className": "<%= elementClassName %>",
     "elementName": "<%= elementName %>"
   },
-  "version": "0.0.1",
+  "version": "<%= rhelementVersion %>",
   "description": "<%= readmeName %> element for RHElements",
   "repository": {
     "type": "git",
@@ -24,8 +24,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "*",<% } %>
-    "@rhelements/rhelement": "*"
+    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= rhSassVersion %>",<% } %>
+    "@rhelements/rhelement": "<%= rhelementVersion %>"
   },
   "generator-rhelement-version": "<%= generatorRhelementVersion %>"
 }
