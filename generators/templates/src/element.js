@@ -44,7 +44,7 @@ class <%= elementClassName %> extends RHElement {
   // }
 
   constructor() {
-    super(<%= elementClassName %>.tag);
+    super(<%= elementClassName %>);
   }
 
   // connectedCallback() {
