@@ -106,9 +106,14 @@ module.exports = class extends Generator {
         }
       }
     ]).then(answers => {
-      // TODO Does this assume the name is always [prefix]-[one name]
-      // What happens with [prefix]-[one]-[two]?
-      let name = answers.name.split("-")[1];
+      let name = "";
+      answers.name.split("-").forEach(part => {
+        if (part !== "rh") {
+          name += part + " ";
+        }
+      });
+      // Trim the whitespace
+      name = name.trim();
 
       const { version: rhelementVersion } = require(this.destinationPath(
         "rhelement/package.json"
