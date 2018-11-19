@@ -32,7 +32,7 @@ module.exports = class extends Generator {
       {
         type: "input",
         name: "name",
-        message: "Your element name (i.e. rh-card)",
+        message: "Element name (i.e. rh-card)",
         validate: function(answer) {
             let parts = _.words(answer);
             if (answer.length < 1) {
@@ -54,7 +54,7 @@ module.exports = class extends Generator {
         message: "Author name",
         when: function(answers) {
           // Check that it doesn't exist in the default config first
-          return !config.has(author);
+          return typeof config.author === "undefined";
         }
       },
       {
@@ -63,7 +63,7 @@ module.exports = class extends Generator {
         message: "Do you want to use Sass with this element?",
         when: function(answers) {
           // Check that it doesn't exist in the default config first
-          return !config.has(useSass);
+          return typeof config.useSass === "undefined";
         }
       },
       {
@@ -91,7 +91,7 @@ module.exports = class extends Generator {
         type: "input",
         name: "attributes",
         message: "List any attributes for the element, separated by commas (i.e., color, priority)",
-        validate: function(answer) {},
+        // validate: function(answer) {},
         filter: function(response) {
           return _.split(response, ",");
         }
@@ -100,12 +100,14 @@ module.exports = class extends Generator {
         type: "input",
         name: "slots",
         message: "List any slot names for the element, separated by commas (i.e., header, footer)",
-        validate: function(answer) {},
+        // validate: function(answer) {},
         filter: function(response) {
           return _.split(response, ",");
         }
       }
     ]).then(answers => {
+      // TODO Does this assume the name is always [prefix]-[one name]
+      // What happens with [prefix]-[one]-[two]?
       let name = answers.name.split("-")[1];
 
       const { version: rhelementVersion } = require(this.destinationPath(
