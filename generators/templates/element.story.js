@@ -8,12 +8,12 @@ stories.addDecorator(withKnobs);
 stories.add("<%= elementName %>", () => {
   // Attributes
   <% for(let i = 0; i < attributes.length; i++) { %>
-  const <% attributes[i] %>Type = <% _.capitalize(attributes[i]) %>;
+  const <% attributes[i] %>Label = <% _.capitalize(attributes[i]) %>;
   const <% attributes[i] %>Options = {
     default: "default"
   };
   const <% attributes[i] %>Default = "default";
-  const <% attributes[i] %>Value = select(<% attributes[i] %>Type, <% attributes[i] %>Options, <% attributes[i] %>Default);
+  const <% attributes[i] %>Value = select(<% attributes[i] %>Label, <% attributes[i] %>Options, <% attributes[i] %>Default);
   let <% attributes[i] %>Attr = <% attributes[i] %>Value != "default" ? ` <% attributes[i] %>="${<% attributes[i] %>Value}"` : "";
   <% } %>
 
