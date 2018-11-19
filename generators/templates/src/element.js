@@ -39,9 +39,15 @@ class <%= elementClassName %> extends RHElement {
 <%_ } _%>
   }
 
+<%_ if (attributes.length > 0) { _%>
+  static get observedAttributes() {
+    return [<%_ _.join(attributes, ", ") _%>];
+  }
+<%_ } else { _%>
   // static get observedAttributes() {
   //   return [];
   // }
+<%_ } _%>
 
   constructor() {
     super(<%= elementClassName %>);
@@ -53,7 +59,12 @@ class <%= elementClassName %> extends RHElement {
 
   // disconnectedCallback() {}
 
+<%_ if (attributes.length > 0) { _%>
+  // Process the attribute change
+  attributeChangedCallback(attr, oldValue, newValue) {}
+<%_ } else { _%>
   // attributeChangedCallback(attr, oldValue, newValue) {}
+<%_ } _%>
 }
 
 RHElement.create(<%= elementClassName %>);
