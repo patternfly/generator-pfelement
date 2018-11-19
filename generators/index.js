@@ -10,16 +10,19 @@ const config = require('better-config');
 const util = require("util");
 const chalk = require("chalk");
 const yosay = require("yosay");
+const fs = require("fs");
 
 const packageJson = require("../package.json");
 
 // Check for a config file to look for defaults
-config.set("../local-config.json");
+if(fs.existsSync("../project.config.json")) {
+  config.set("../project.config.json");
+}
 
 module.exports = class extends Generator {
   prompting() {
     // Have Yeoman greet the user
-    this.log(yosay("Welcome to the " + chalk.red("RH Elements") + " generator!"));
+    this.log(" ___  _  _   ___  _                        _   \n| _ \\| || | | __|| | ___  _ __   ___  _ _ | |_ \n|   /| __ | | _| | |/ -_)| '  \\ / -_)| ' \\|  _|\n|_|_\\|_||_| |___||_|\\___||_|_|_|\\___||_||_|\\__|");
 
     return this.prompt([
       {
