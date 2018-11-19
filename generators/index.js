@@ -53,19 +53,24 @@ module.exports = class extends Generator {
         name: "author",
         message: "Author name",
         when: function(answers) {
-          // check that it doesn't exist in the default config first
+          // Check that it doesn't exist in the default config first
+          return !config.has(author);
         }
       },
       {
         type: "confirm",
         name: "useSass",
-        message: "Do you want to use Sass with this element?"
+        message: "Do you want to use Sass with this element?",
+        when: function(answers) {
+          // Check that it doesn't exist in the default config first
+          return !config.has(useSass);
+        }
       },
       {
         type: "list",
         name: "sassLibrary",
         when: answers => {
-          return answers.useSass;
+          return answers.useSass && !config.has(sassLibrary);
         },
         message: "Do want to use existing Sass dependencies?",
         choices: [

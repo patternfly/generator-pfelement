@@ -67,6 +67,6 @@ class <%= elementClassName %> extends RHElement {
 <%_ } _%>
 }
 
-RHElement.create(<%= elementClassName %>);
+RHElement.create(<%= elementClassName %>, { type: <%_ template_type _%>});
 
 export default <%= elementClassName %>;
