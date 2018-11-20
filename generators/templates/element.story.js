@@ -29,17 +29,19 @@ stories.add("<%= elementName %>", () => {
     <h2>Your RH Element</h2>
     <<%= elementName %><% for(let i = 0; i < attributes.length; i++) { %>${<% attributes[i] %>Attr} <% } %>>
       <%- for(let i = 0; i < slots.length; i++) { %>
-        <span slot="<% slots[i] %>">${<% slots[i] %>Value}</span>
+        ${<% slots[i] %>Value ? '<span slot="<% slots[i] %>">' + <% slots[i] %>Value + '</span>' : ''}
       <% } -%>
     </<%= elementName %>>
   </section>
   <section>
     <h2>Markup</h2>
-    <pre><code>&lt;<%= elementName %><% for(let i = 0; i < attributes.length; i++) { %>${<% attributes[i] %>Attr} <% } %>&gt;
+    <pre><code>
+    &lt;<%= elementName %><% for(let i = 0; i < attributes.length; i++) { %>${<% attributes[i] %>Attr} <% } %>&gt;
     <%- for(let i = 0; i < slots.length; i++) { %>
-      &lt;span slot="<% slots[i] %>"&gt;${<% slots[i] %>Value}&lt;/span&gt;
+      ${<% slots[i] %>Value ? '&lt;div slot="<% slots[i] %>"&gt;\n\t' + escapeHTML(<% slots[i] %>Value) + '\n      &lt;/div&gt;' : ''}
     <% } -%>
-    &lt;/<%= elementName %>&gt;</code></pre>
+    &lt;/<%= elementName %>&gt;
+    </code></pre>
   </section>
   `
 });
