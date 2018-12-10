@@ -42,10 +42,10 @@ module.exports = class extends Generator {
         message: "Do want to use existing Sass dependencies?",
         choices: [
           {
-            name: "rh-sass",
+            name: "pfe-sass",
             value: {
-              pkg: "@rhelements/rh-sass",
-              path: "rh-sass/rh-sass"
+              pkg: "@pfelements/pfe-sass",
+              path: "pfe-sass/pfe-sass"
             }
           },
           {
@@ -57,11 +57,11 @@ module.exports = class extends Generator {
     ]).then(answers => {
       let name = answers.name.split("-")[1];
 
-      const { version: rhelementVersion } = require(this.destinationPath(
-        "rhelement/package.json"
+      const { version: pfelementVersion } = require(this.destinationPath(
+        "pfelement/package.json"
       ));
-      const { version: rhSassVersion } = require(this.destinationPath(
-        "rh-sass/package.json"
+      const { version: pfeSassVersion } = require(this.destinationPath(
+        "pfe-sass/package.json"
       ));
 
       this.props = {
@@ -78,9 +78,9 @@ module.exports = class extends Generator {
         useSass: answers.useSass,
         sassLibraryPkg: false,
         sassLibraryPath: false,
-        generatorRhelementVersion: packageJson.version,
-        rhelementVersion,
-        rhSassVersion
+        generatorPfelementVersion: packageJson.version,
+        pfelementVersion,
+        pfeSassVersion
       };
 
       if (answers.useSass) {

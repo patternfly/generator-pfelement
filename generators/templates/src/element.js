@@ -20,9 +20,9 @@
  * SOFTWARE.
  */
 
-import RHElement from "../rhelement/rhelement.js";
+import PFElement from "../pfelement/pfelement.js";
 
-class <%= elementClassName %> extends RHElement {
+class <%= elementClassName %> extends PFElement {
   static get tag() {
     return "<%= elementName %>";
   }
@@ -56,6 +56,6 @@ class <%= elementClassName %> extends RHElement {
   // attributeChangedCallback(attr, oldValue, newValue) {}
 }
 
-RHElement.create(<%= elementClassName %>);
+PFElement.create(<%= elementClassName %>);
 
 export default <%= elementClassName %>;

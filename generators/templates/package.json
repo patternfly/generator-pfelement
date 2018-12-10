@@ -1,10 +1,10 @@
 {
-  "name": "@rhelements/<%= elementName %>",
-  "rhelement": {
+  "name": "@pfelements/<%= elementName %>",
+  "pfelement": {
     "className": "<%= elementClassName %>",
     "elementName": "<%= elementName %>"
   },
-  "version": "<%= rhelementVersion %>",
+  "version": "<%= pfelementVersion %>",
   "description": "<%= readmeName %> element for RHElements",
   "repository": {
     "type": "git",
@@ -24,8 +24,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= rhSassVersion %>",<% } %>
-    "@rhelements/rhelement": "<%= rhelementVersion %>"
+    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= pfeSassVersion %>",<% } %>
+    "@pfelements/pfelement": "<%= pfelementVersion %>"
   },
-  "generator-rhelement-version": "<%= generatorRhelementVersion %>"
+  "generator-pfelement-version": "<%= generatorPfelementVersion %>"
 }
