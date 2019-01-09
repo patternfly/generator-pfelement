@@ -5,7 +5,7 @@
     "elementName": "<%= elementName %>"
   },
   "version": "<%= pfelementVersion %>",
-  "description": "<%= readmeName %> element for PF Elements",
+  "description": "<%= readmeName %> element for PatternFly Elements",
   "repository": {
     "type": "git",
     "url": ""

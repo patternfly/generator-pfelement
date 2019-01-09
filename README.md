@@ -1,4 +1,4 @@
-# RHElement Generator
+# PatternFly Elements Generator
 
 ```
 yo pfelement
