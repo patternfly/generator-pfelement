@@ -45,7 +45,7 @@ module.exports = class extends Generator {
           {
             name: "pfe-sass",
             value: {
-              pkg: "@pfelements/pfe-sass",
+              pkg: "@patternfly/pfe-sass",
               path: "pfe-sass/pfe-sass"
             }
           },
