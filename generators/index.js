@@ -58,14 +58,23 @@ module.exports = class extends Generator {
     ]).then(answers => {
       let name = answers.name.split("-")[1];
 
-      const { version: pfelementVersion } = fs.existsSync(this.templatePath("pfelement/package.json")) ? require(this.destinationPath("pfelement/package.json")) : "";
-      const { version: pfeSassVersion } = fs.existsSync(this.templatePath("pfe-sass/package.json")) ? require(this.destinationPath("pfe-sass/package.json")) : "";
+      const { version: pfelementVersion } = fs.existsSync(
+        this.templatePath("pfelement/package.json")
+      )
+        ? require(this.destinationPath("pfelement/package.json"))
+        : "";
+      const { version: pfeSassVersion } = fs.existsSync(
+        this.templatePath("pfe-sass/package.json")
+      )
+        ? require(this.destinationPath("pfe-sass/package.json"))
+        : "";
 
       this.props = {
         author: answers.author,
         name: answers.name,
         elementName: answers.name,
-        elementClassName: _.chain(answers.name)
+        elementClassName: _
+          .chain(answers.name)
           .camelCase()
           .upperFirst()
           .value(),
@@ -95,7 +104,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    if(fs.existsSync(this.templatePath("package.json"))) {
+    if (fs.existsSync(this.templatePath("package.json"))) {
       this.fs.copyTpl(
         this.templatePath("package.json"),
         this.destinationPath(`${this.props.elementName}/package.json`),
@@ -103,7 +112,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("src/element.js"))) {
+    if (fs.existsSync(this.templatePath("src/element.js"))) {
       this.fs.copyTpl(
         this.templatePath("src/element.js"),
         this.destinationPath(
@@ -113,7 +122,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("README.md"))) {
+    if (fs.existsSync(this.templatePath("README.md"))) {
       this.fs.copyTpl(
         this.templatePath("README.md"),
         this.destinationPath(`${this.props.elementName}/README.md`),
@@ -121,7 +130,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("gulpfile.js"))) {
+    if (fs.existsSync(this.templatePath("gulpfile.js"))) {
       this.fs.copyTpl(
         this.templatePath("gulpfile.js"),
         this.destinationPath(`${this.props.elementName}/gulpfile.js`),
@@ -129,7 +138,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("rollup.config.js"))) {
+    if (fs.existsSync(this.templatePath("rollup.config.js"))) {
       this.fs.copyTpl(
         this.templatePath("rollup.config.js"),
         this.destinationPath(`${this.props.elementName}/rollup.config.js`),
@@ -137,7 +146,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("demo/index.html"))) {
+    if (fs.existsSync(this.templatePath("demo/index.html"))) {
       this.fs.copyTpl(
         this.templatePath("demo/index.html"),
         this.destinationPath(`${this.props.elementName}/demo/index.html`),
@@ -145,7 +154,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("test/element_test.html"))) {
+    if (fs.existsSync(this.templatePath("test/element_test.html"))) {
       this.fs.copyTpl(
         this.templatePath("test/element_test.html"),
         this.destinationPath(
@@ -155,7 +164,7 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("test/index.html"))) {
+    if (fs.existsSync(this.templatePath("test/index.html"))) {
       this.fs.copyTpl(
         this.templatePath("test/index.html"),
         this.destinationPath(`${this.props.elementName}/test/index.html`),
@@ -163,31 +172,34 @@ module.exports = class extends Generator {
       );
     }
 
-    if(fs.existsSync(this.templatePath("element.story.js"))) {
+    if (fs.existsSync(this.templatePath("src/element.story.js"))) {
       this.fs.copyTpl(
-        this.templatePath("element.story.js"),
+        this.templatePath("src/element.story.js"),
         this.destinationPath(
-          `${this.props.elementName}/${this.props.elementName}.story.js`
+          `${this.props.elementName}/src/${this.props.elementName}.story.js`
         ),
         this.props
       );
     }
 
-    if(fs.existsSync(this.templatePath(".*"))) {
+    if (fs.existsSync(this.templatePath(".*"))) {
       this.fs.copy(
         this.templatePath(".*"),
         this.destinationPath(`${this.props.elementName}`)
       );
     }
 
-    if(fs.existsSync(this.templatePath("LICENSE.txt"))) {
+    if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
       this.fs.copy(
         this.templatePath("LICENSE.txt"),
         this.destinationPath(`${this.props.elementName}/LICENSE.txt`)
       );
     }
 
-    if (this.props.useSass && fs.existsSync(this.templatePath("src/element.scss"))) {
+    if (
+      this.props.useSass &&
+      fs.existsSync(this.templatePath("src/element.scss"))
+    ) {
       this.fs.copyTpl(
         this.templatePath("src/element.scss"),
         this.destinationPath(
@@ -195,7 +207,7 @@ module.exports = class extends Generator {
         ),
         this.props
       );
-    } else if(fs.existsSync(this.templatePath("src/element.css"))) {
+    } else if (fs.existsSync(this.templatePath("src/element.css"))) {
       this.fs.copy(
         this.templatePath("src/element.css"),
         this.destinationPath(
