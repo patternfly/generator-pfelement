@@ -59,12 +59,12 @@ module.exports = class extends Generator {
       let name = answers.name.split("-")[1];
 
       const { version: pfelementVersion } = fs.existsSync(
-        this.templatePath("pfelement/package.json")
+        this.destinationPath("pfelement/package.json")
       )
         ? require(this.destinationPath("pfelement/package.json"))
         : "";
       const { version: pfeSassVersion } = fs.existsSync(
-        this.templatePath("pfe-sass/package.json")
+        this.destinationPath("pfe-sass/package.json")
       )
         ? require(this.destinationPath("pfe-sass/package.json"))
         : "";
@@ -182,12 +182,10 @@ module.exports = class extends Generator {
       );
     }
 
-    if (fs.existsSync(this.templatePath(".*"))) {
-      this.fs.copy(
-        this.templatePath(".*"),
-        this.destinationPath(`${this.props.elementName}`)
-      );
-    }
+    this.fs.copy(
+      this.templatePath(".*"),
+      this.destinationPath(`${this.props.elementName}`)
+    );
 
     if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
       this.fs.copy(
