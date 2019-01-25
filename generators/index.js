@@ -1,6 +1,7 @@
 const Generator = require("yeoman-generator");
 const _ = require("lodash");
 const mkdirp = require("mkdirp");
+const fs = require("fs");
 const path = require("path");
 const process = require("process");
 const packageJson = require("../package.json");
@@ -42,10 +43,10 @@ module.exports = class extends Generator {
         message: "Do want to use existing Sass dependencies?",
         choices: [
           {
-            name: "rh-sass",
+            name: "pfe-sass",
             value: {
-              pkg: "@rhelements/rh-sass",
-              path: "rh-sass/rh-sass"
+              pkg: "@patternfly/pfe-sass",
+              path: "pfe-sass/pfe-sass"
             }
           },
           {
@@ -57,18 +58,23 @@ module.exports = class extends Generator {
     ]).then(answers => {
       let name = answers.name.split("-")[1];
 
-      const { version: rhelementVersion } = require(this.destinationPath(
-        "rhelement/package.json"
-      ));
-      const { version: rhSassVersion } = require(this.destinationPath(
-        "rh-sass/package.json"
-      ));
+      const { version: pfelementVersion } = fs.existsSync(
+        this.destinationPath("pfelement/package.json")
+      )
+        ? require(this.destinationPath("pfelement/package.json"))
+        : "";
+      const { version: pfeSassVersion } = fs.existsSync(
+        this.destinationPath("pfe-sass/package.json")
+      )
+        ? require(this.destinationPath("pfe-sass/package.json"))
+        : "";
 
       this.props = {
         author: answers.author,
         name: answers.name,
         elementName: answers.name,
-        elementClassName: _.chain(answers.name)
+        elementClassName: _
+          .chain(answers.name)
           .camelCase()
           .upperFirst()
           .value(),
@@ -78,9 +84,9 @@ module.exports = class extends Generator {
         useSass: answers.useSass,
         sassLibraryPkg: false,
         sassLibraryPath: false,
-        generatorRhelementVersion: packageJson.version,
-        rhelementVersion,
-        rhSassVersion
+        generatorPfelementVersion: packageJson.version,
+        pfelementVersion,
+        pfeSassVersion
       };
 
       if (answers.useSass) {
@@ -98,77 +104,100 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copyTpl(
-      this.templatePath("package.json"),
-      this.destinationPath(`${this.props.elementName}/package.json`),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("package.json"))) {
+      this.fs.copyTpl(
+        this.templatePath("package.json"),
+        this.destinationPath(`${this.props.elementName}/package.json`),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("src/element.js"),
-      this.destinationPath(
-        `${this.props.elementName}/src/${this.props.elementName}.js`
-      ),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("src/element.js"))) {
+      this.fs.copyTpl(
+        this.templatePath("src/element.js"),
+        this.destinationPath(
+          `${this.props.elementName}/src/${this.props.elementName}.js`
+        ),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("README.md"),
-      this.destinationPath(`${this.props.elementName}/README.md`),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("README.md"))) {
+      this.fs.copyTpl(
+        this.templatePath("README.md"),
+        this.destinationPath(`${this.props.elementName}/README.md`),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("gulpfile.js"),
-      this.destinationPath(`${this.props.elementName}/gulpfile.js`),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("gulpfile.js"))) {
+      this.fs.copyTpl(
+        this.templatePath("gulpfile.js"),
+        this.destinationPath(`${this.props.elementName}/gulpfile.js`),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("rollup.config.js"),
-      this.destinationPath(`${this.props.elementName}/rollup.config.js`),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("rollup.config.js"))) {
+      this.fs.copyTpl(
+        this.templatePath("rollup.config.js"),
+        this.destinationPath(`${this.props.elementName}/rollup.config.js`),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("demo/index.html"),
-      this.destinationPath(`${this.props.elementName}/demo/index.html`),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("demo/index.html"))) {
+      this.fs.copyTpl(
+        this.templatePath("demo/index.html"),
+        this.destinationPath(`${this.props.elementName}/demo/index.html`),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("test/element_test.html"),
-      this.destinationPath(
-        `${this.props.elementName}/test/${this.props.elementName}_test.html`
-      ),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("test/element_test.html"))) {
+      this.fs.copyTpl(
+        this.templatePath("test/element_test.html"),
+        this.destinationPath(
+          `${this.props.elementName}/test/${this.props.elementName}_test.html`
+        ),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("test/index.html"),
-      this.destinationPath(`${this.props.elementName}/test/index.html`),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("test/index.html"))) {
+      this.fs.copyTpl(
+        this.templatePath("test/index.html"),
+        this.destinationPath(`${this.props.elementName}/test/index.html`),
+        this.props
+      );
+    }
 
-    this.fs.copyTpl(
-      this.templatePath("element.story.js"),
-      this.destinationPath(
-        `${this.props.elementName}/${this.props.elementName}.story.js`
-      ),
-      this.props
-    );
+    if (fs.existsSync(this.templatePath("src/element.story.js"))) {
+      this.fs.copyTpl(
+        this.templatePath("src/element.story.js"),
+        this.destinationPath(
+          `${this.props.elementName}/src/${this.props.elementName}.story.js`
+        ),
+        this.props
+      );
+    }
 
     this.fs.copy(
       this.templatePath(".*"),
       this.destinationPath(`${this.props.elementName}`)
     );
 
-    this.fs.copy(
-      this.templatePath("LICENSE.txt"),
-      this.destinationPath(`${this.props.elementName}/LICENSE.txt`)
-    );
+    if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
+      this.fs.copy(
+        this.templatePath("LICENSE.txt"),
+        this.destinationPath(`${this.props.elementName}/LICENSE.txt`)
+      );
+    }
 
-    if (this.props.useSass) {
+    if (
+      this.props.useSass &&
+      fs.existsSync(this.templatePath("src/element.scss"))
+    ) {
       this.fs.copyTpl(
         this.templatePath("src/element.scss"),
         this.destinationPath(
@@ -176,7 +205,7 @@ module.exports = class extends Generator {
         ),
         this.props
       );
-    } else {
+    } else if (fs.existsSync(this.templatePath("src/element.css"))) {
       this.fs.copy(
         this.templatePath("src/element.css"),
         this.destinationPath(
@@ -185,12 +214,14 @@ module.exports = class extends Generator {
       );
     }
 
-    this.fs.copy(
-      this.templatePath("src/element.html"),
-      this.destinationPath(
-        `${this.props.elementName}/src/${this.props.elementName}.html`
-      )
-    );
+    if (fs.existsSync(this.templatePath("src/element.html"))) {
+      this.fs.copy(
+        this.templatePath("src/element.html"),
+        this.destinationPath(
+          `${this.props.elementName}/src/${this.props.elementName}.html`
+        )
+      );
+    }
   }
 
   install() {
