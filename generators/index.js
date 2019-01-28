@@ -6,9 +6,27 @@ const path = require("path");
 const process = require("process");
 const packageJson = require("../package.json");
 
+let isPfelement = false;
+let demoTemplatePath;
+
 module.exports = class extends Generator {
   prompting() {
     return this.prompt([
+      {
+        type: "list",
+        name: "type",
+        message: "What would you like to create?",
+        choices: [
+          {
+            name: "A new PFElement in the core PatternFly Elements library",
+            value: "pfelement"
+          },
+          {
+            name: "A standalone web component that extends PFElement",
+            value: "standalone"
+          }
+        ]
+      },
       {
         type: "input",
         name: "name",
@@ -69,6 +87,20 @@ module.exports = class extends Generator {
         ? require(this.destinationPath("pfe-sass/package.json"))
         : "";
 
+      isPfelement = answers.type === "pfelement";
+      demoTemplatePath = isPfelement
+        ? "demo/pfelement-index.html"
+        : "demo/standalone-index.html";
+      const pfeElementLocation = isPfelement
+        ? "../pfelement/pfelement.js"
+        : "../@patternfly/pfelement/pfelement.js";
+      const packageName = isPfelement
+        ? `@patternfly/${answers.name}`
+        : `${answers.name}`;
+      const gulpFactoryLocation = isPfelement
+        ? "../../scripts/gulpfile.factory.js"
+        : "./scripts/gulpfile.factory.js";
+
       this.props = {
         author: answers.author,
         name: answers.name,
@@ -86,7 +118,11 @@ module.exports = class extends Generator {
         sassLibraryPath: false,
         generatorPfelementVersion: packageJson.version,
         pfelementVersion,
-        pfeSassVersion
+        pfeSassVersion,
+        pfeElementLocation: pfeElementLocation,
+        isPfelement: isPfelement,
+        packageName: packageName,
+        gulpFactoryLocation: gulpFactoryLocation
       };
 
       if (answers.useSass) {
@@ -138,17 +174,19 @@ module.exports = class extends Generator {
       );
     }
 
-    if (fs.existsSync(this.templatePath("rollup.config.js"))) {
-      this.fs.copyTpl(
-        this.templatePath("rollup.config.js"),
-        this.destinationPath(`${this.props.elementName}/rollup.config.js`),
-        this.props
-      );
+    if (isPfelement) {
+      if (fs.existsSync(this.templatePath("rollup.config.js"))) {
+        this.fs.copyTpl(
+          this.templatePath("rollup.config.js"),
+          this.destinationPath(`${this.props.elementName}/rollup.config.js`),
+          this.props
+        );
+      }
     }
 
-    if (fs.existsSync(this.templatePath("demo/index.html"))) {
+    if (fs.existsSync(this.templatePath(demoTemplatePath))) {
       this.fs.copyTpl(
-        this.templatePath("demo/index.html"),
+        this.templatePath(demoTemplatePath),
         this.destinationPath(`${this.props.elementName}/demo/index.html`),
         this.props
       );
@@ -172,14 +210,16 @@ module.exports = class extends Generator {
       );
     }
 
-    if (fs.existsSync(this.templatePath("src/element.story.js"))) {
-      this.fs.copyTpl(
-        this.templatePath("src/element.story.js"),
-        this.destinationPath(
-          `${this.props.elementName}/src/${this.props.elementName}.story.js`
-        ),
-        this.props
-      );
+    if (isPfelement) {
+      if (fs.existsSync(this.templatePath("src/element.story.js"))) {
+        this.fs.copyTpl(
+          this.templatePath("src/element.story.js"),
+          this.destinationPath(
+            `${this.props.elementName}/src/${this.props.elementName}.story.js`
+          ),
+          this.props
+        );
+      }
     }
 
     this.fs.copy(
@@ -220,6 +260,13 @@ module.exports = class extends Generator {
         this.destinationPath(
           `${this.props.elementName}/src/${this.props.elementName}.html`
         )
+      );
+    }
+
+    if (!isPfelement) {
+      this.fs.copy(
+        this.templatePath("scripts/*"),
+        this.destinationPath(`${this.props.elementName}/scripts`)
       );
     }
   }
