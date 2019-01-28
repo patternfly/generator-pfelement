@@ -8,6 +8,7 @@ const packageJson = require("../package.json");
 
 let isPfelement = false;
 let demoTemplatePath;
+let readmePath;
 
 module.exports = class extends Generator {
   prompting() {
@@ -91,6 +92,9 @@ module.exports = class extends Generator {
       demoTemplatePath = isPfelement
         ? "demo/pfelement-index.html"
         : "demo/standalone-index.html";
+      readmePath = isPfelement
+        ? "./pfelement-README.md"
+        : "./standalone-README.md";
       const pfeElementLocation = isPfelement
         ? "../pfelement/pfelement.js"
         : "../@patternfly/pfelement/pfelement.js";
@@ -158,9 +162,9 @@ module.exports = class extends Generator {
       );
     }
 
-    if (fs.existsSync(this.templatePath("README.md"))) {
+    if (fs.existsSync(this.templatePath(readmePath))) {
       this.fs.copyTpl(
-        this.templatePath("README.md"),
+        this.templatePath(readmePath),
         this.destinationPath(`${this.props.elementName}/README.md`),
         this.props
       );
