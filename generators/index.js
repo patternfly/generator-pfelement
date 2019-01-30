@@ -22,11 +22,12 @@ if(fs.existsSync("../project.config.json")) {
 
 module.exports = class extends Generator {
   async prompting() {
+    const done = this.async();
     // @TODO this is not rendering in the right order
     // asciify("PatternFly Elements", { font: "standard", color: "gray" }, (err, res) => this.log("\n" + res + "\n\n"));
-    yosay("Welcome to the PatternFly Elements generator!");
+    this.log( yosay(`Welcome to the ${ chalk.red( "PatternFly Elements" ) } generator!`) );
 
-    return this.prompt([
+    this.prompt([
       {
         type: "list",
         name: "template_type",
@@ -171,127 +172,136 @@ module.exports = class extends Generator {
       }
 
       mkdirp.sync(this.props.elementName);
+      done();
     });
   }
 
   writing() {
-    if (fs.existsSync(this.templatePath("package.json"))) {
-      this.fs.copyTpl(
-        this.templatePath("package.json"),
-        this.destinationPath(`${this.props.elementName}/package.json`),
-        this.props
-      );
-    }
+    try {
+      if (fs.existsSync(this.templatePath("package.json"))) {
+        this.fs.copyTpl(
+          this.templatePath("package.json"),
+          this.destinationPath(`${this.props.elementName}/package.json`),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("src/element.js"))) {
-      this.fs.copyTpl(
-        this.templatePath("src/element.js"),
-        this.destinationPath(
-          `${this.props.elementName}/src/${this.props.elementName}.js`
-        ),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("src/element.js"))) {
+        this.fs.copyTpl(
+          this.templatePath("src/element.js"),
+          this.destinationPath(
+            `${this.props.elementName}/src/${this.props.elementName}.js`
+          ),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("README.md"))) {
-      this.fs.copyTpl(
-        this.templatePath("README.md"),
-        this.destinationPath(`${this.props.elementName}/README.md`),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("README.md"))) {
+        this.fs.copyTpl(
+          this.templatePath("README.md"),
+          this.destinationPath(`${this.props.elementName}/README.md`),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("gulpfile.js"))) {
-      this.fs.copyTpl(
-        this.templatePath("gulpfile.js"),
-        this.destinationPath(`${this.props.elementName}/gulpfile.js`),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("gulpfile.js"))) {
+        this.fs.copyTpl(
+          this.templatePath("gulpfile.js"),
+          this.destinationPath(`${this.props.elementName}/gulpfile.js`),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("rollup.config.js"))) {
-      this.fs.copyTpl(
-        this.templatePath("rollup.config.js"),
-        this.destinationPath(`${this.props.elementName}/rollup.config.js`),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("rollup.config.js"))) {
+        this.fs.copyTpl(
+          this.templatePath("rollup.config.js"),
+          this.destinationPath(`${this.props.elementName}/rollup.config.js`),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("demo/index.html"))) {
-      this.fs.copyTpl(
-        this.templatePath("demo/index.html"),
-        this.destinationPath(`${this.props.elementName}/demo/index.html`),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("demo/index.html"))) {
+        this.fs.copyTpl(
+          this.templatePath("demo/index.html"),
+          this.destinationPath(`${this.props.elementName}/demo/index.html`),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("test/element_test.html"))) {
-      this.fs.copyTpl(
-        this.templatePath("test/element_test.html"),
-        this.destinationPath(
-          `${this.props.elementName}/test/${this.props.elementName}_test.html`
-        ),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("test/element_test.html"))) {
+        this.fs.copyTpl(
+          this.templatePath("test/element_test.html"),
+          this.destinationPath(
+            `${this.props.elementName}/test/${this.props.elementName}_test.html`
+          ),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("test/index.html"))) {
-      this.fs.copyTpl(
-        this.templatePath("test/index.html"),
-        this.destinationPath(`${this.props.elementName}/test/index.html`),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("test/index.html"))) {
+        this.fs.copyTpl(
+          this.templatePath("test/index.html"),
+          this.destinationPath(`${this.props.elementName}/test/index.html`),
+          this.props
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("src/element.story.js"))) {
-      this.fs.copyTpl(
-        this.templatePath("src/element.story.js"),
-        this.destinationPath(
-          `${this.props.elementName}/src/${this.props.elementName}.story.js`
-        ),
-        this.props
-      );
-    }
+      if (fs.existsSync(this.templatePath("src/element.story.js"))) {
+        this.fs.copyTpl(
+          this.templatePath("src/element.story.js"),
+          this.destinationPath(
+            `${this.props.elementName}/src/${this.props.elementName}.story.js`
+          ),
+          this.props
+        );
+      }
 
-    this.fs.copy(
-      this.templatePath(".*"),
-      this.destinationPath(`${this.props.elementName}`)
-   );
-
-    if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
       this.fs.copy(
-        this.templatePath("LICENSE.txt"),
-        this.destinationPath(`${this.props.elementName}/LICENSE.txt`)
-      );
-    }
+        this.templatePath(".*"),
+        this.destinationPath(`${this.props.elementName}`)
+    );
 
-    if (
-      this.props.useSass &&
-      fs.existsSync(this.templatePath("src/element.scss"))
-    ) {
-      this.fs.copyTpl(
-        this.templatePath("src/element.scss"),
-        this.destinationPath(
-          `${this.props.elementName}/src/${this.props.elementName}.scss`
-       ),
-        this.props
-      );
-    } else if (fs.existsSync(this.templatePath("src/element.css"))) {
-      this.fs.copy(
-        this.templatePath("src/element.css"),
-        this.destinationPath(
-          `${this.props.elementName}/src/${this.props.elementName}.css`
-       )
-     );
-    }
+      if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
+        this.fs.copy(
+          this.templatePath("LICENSE.txt"),
+          this.destinationPath(`${this.props.elementName}/LICENSE.txt`)
+        );
+      }
 
-    if (fs.existsSync(this.templatePath("src/element.html"))) {
-      this.fs.copy(
-        this.templatePath("src/element.html"),
-        this.destinationPath(
-          `${this.props.elementName}/src/${this.props.elementName}.html`
+      if (
+        this.props.useSass &&
+        fs.existsSync(this.templatePath("src/element.scss"))
+      ) {
+        this.fs.copyTpl(
+          this.templatePath("src/element.scss"),
+          this.destinationPath(
+            `${this.props.elementName}/src/${this.props.elementName}.scss`
+        ),
+          this.props
+        );
+      } else if (fs.existsSync(this.templatePath("src/element.css"))) {
+        this.fs.copy(
+          this.templatePath("src/element.css"),
+          this.destinationPath(
+            `${this.props.elementName}/src/${this.props.elementName}.css`
         )
       );
+      }
+
+      if (fs.existsSync(this.templatePath("src/element.html"))) {
+        this.fs.copy(
+          this.templatePath("src/element.html"),
+          this.destinationPath(
+            `${this.props.elementName}/src/${this.props.elementName}.html`
+          )
+        );
+      }
+    }
+    catch ( error ) {
+      console.log( error );
+      console.log( "//------ Properties set by yeoman:\n" );
+      console.log( util.inspect( this.props, { showHidden: false, depth: 4 } ) );
+      console.log( "-------------------------------------------//\n" );
     }
   }
 
