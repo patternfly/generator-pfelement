@@ -11,7 +11,7 @@ const config = require('better-config');
 const util = require("util");
 const chalk = require("chalk");
 const yosay = require("yosay");
-const fs = require("fs");
+const asciify = require("asciify");
 
 const packageJson = require("../package.json");
 
@@ -21,9 +21,9 @@ if(fs.existsSync("../project.config.json")) {
 }
 
 module.exports = class extends Generator {
-  prompting() {
-    // Have Yeoman greet the user
-    this.log(" ___  _  _   ___  _                        _   \n| _ \\| || | | __|| | ___  _ __   ___  _ _ | |_ \n|   /| __ | | _| | |/ -_)| '  \\ / -_)| ' \\|  _|\n|_|_\\|_||_| |___||_|\\___||_|_|_|\\___||_||_|\\__|");
+  async prompting() {
+    // @TODO this is not rendering in the right order
+    // asciify("PatternFly Elements", { font: "standard", color: "gray" }, (err, res) => this.log("\n" + res + "\n\n"));
 
     return this.prompt([
       {
@@ -36,13 +36,13 @@ module.exports = class extends Generator {
       {
         type: "input",
         name: "name",
-        message: "Element name (i.e. rh-card)",
+        message: "Element name (i.e. pfe-card)",
         validate: function(answer) {
             let parts = _.words(answer);
             if (answer.length < 1) {
                 return "I get it, naming is hard; but it must have a name. You can always change it later.";
             } else if (parts.length < 2) {
-              return "Elements should always have at least two parts. Check that you included the prefix for the name; for example, rh-cta.";
+              return "Elements should always have at least two parts. Check that you included the prefix for the name; for example, pfe-cta.";
             } else {
               return true;
             }
@@ -93,6 +93,11 @@ module.exports = class extends Generator {
       },
       {
         type: "input",
+        name: "description",
+        message: "Describe the element's purpose or goal."
+      },
+      {
+        type: "input",
         name: "attributes",
         message: "List any attributes for the element, separated by commas (i.e., color, priority)",
         // validate: function(answer) {},
@@ -111,8 +116,9 @@ module.exports = class extends Generator {
       }
     ]).then(answers => {
       let name = "";
+      // Trim prefixing of the name
       answers.name.split("-").forEach(part => {
-        if (part !== "rh") {
+        if (part !== "pfe") {
           name += part + " ";
         }
       });

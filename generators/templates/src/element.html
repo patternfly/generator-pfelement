@@ -1,4 +1,2 @@
-<slot></slot>
-<% for(let i = 0; i < slots.length; i++) { %>
-<slot name="<% slots[i] %>"><% _.capitalize(slots[i]) %> slot</slot>
-<% } %>
+<slot></slot><% for(let i = 0; i < slots.length; i++) { %>
+<slot name="<%= elementClassName %>__<%= slots[i] %>" class="<%= elementClassName %>--<%= slots[i] %>"><% _.capitalize(slots[i]) %> slot</slot><% } %>

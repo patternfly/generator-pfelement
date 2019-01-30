@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "<% readmeName %>",
+    "description": "<% description %>",
+    "type": "object",
+    "tag": "<% elementClassName %>",
+    "class": "<% elementClassName %>",
+    "category": "<% template_type %>",
+    "properties": {
+      "slots": {
+        "title": "Slots",
+        "description": "Definition of the supported slots",
+        "type": "object",
+        "properties": {<% for(let i = 0; i < slots.length; i++) { %>
+          "<% slots[i] %>": {
+            "title": "<% slots[i].toUpperCase() %>",
+            "type": "array",
+            "namedSlot": true,
+            "maxItems": 3,
+            "items": {
+              "title": "<% slots[i].toUpperCase() %> item",
+              "oneOf": [{
+                "$ref": "raw"
+              }]
+            }
+          }
+        }<% if(slots.length > 1 && i < slots.length - 1) { %>, <% } } %>
+      },
+      "attributes": {
+        "title": "Attributes",
+        "type": "object",
+        "properties": {<% for(let i = 0; i < attributes.length; i++) { %>
+          "<% attributes[i] %>": {
+            "title": "<% attributes[i].toUpperCase() %>",
+            "type": "string",
+            "enum": [],
+            "default": "",
+            "observer": "_functionName"
+          }<% if(attributes.length > 1 && i < attributes.length - 1) { %>, <% } } %>
+        }
+      }
+    },
+    "required": ["slots", "attributes"],
+    "additionalProperties": false
+  }
+  

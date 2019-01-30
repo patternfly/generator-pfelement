@@ -9,6 +9,10 @@ class <%= elementClassName %> extends PFElement {
     return "<%= elementName %>.html";
   }
 
+  get schemaUrl() {
+    return "<%= elementName %>.json";
+  }
+
   get styleUrl() {
 <%_ if (useSass) { _%>
     return "<%= elementName %>.scss";
