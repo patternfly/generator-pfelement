@@ -107,6 +107,9 @@ module.exports = class extends Generator {
       const rollupConfigLocation = isPfelement
         ? "../../scripts/rollup.config.factory.js"
         : "./scripts/rollup.config.factory.js";
+      const testFileLocation = isPfelement
+        ? `../${answers.name}.js`
+        : `../node_modules/${answers.name}/${answers.name}.js`;
 
       this.props = {
         author: answers.author,
@@ -122,15 +125,16 @@ module.exports = class extends Generator {
         camelCaseName: _.camelCase(answers.name),
         useSass: answers.useSass,
         sassLibraryPkg: false,
-        sassLibraryPath: false,
+        sassLibraryLocation: false,
         generatorPfelementVersion: packageJson.version,
         pfelementVersion,
         pfeSassVersion,
         pfeElementLocation: pfeElementLocation,
         isPfelement: isPfelement,
         packageName: packageName,
-        gulpFactoryLocation: gulpFactoryLocation
+        gulpFactoryLocation: gulpFactoryLocation,
         rollupConfigLocation: rollupConfigLocation,
+        testFileLocation: testFileLocation
       };
 
       if (answers.useSass) {
@@ -139,7 +143,9 @@ module.exports = class extends Generator {
         }
 
         if (answers.sassLibrary && answers.sassLibrary.path) {
-          this.props.sassLibraryPath = answers.sassLibrary.path;
+          this.props.sassLibraryLocation = isPfelement
+            ? "../../pfe-sass/pfe-sass"
+            : "../node_modules/@patternfly/pfe-sass/pfe-sass";
         }
       }
 
@@ -273,6 +279,11 @@ module.exports = class extends Generator {
       this.fs.copy(
         this.templatePath("scripts/*"),
         this.destinationPath(`${this.props.elementName}/scripts`)
+      );
+
+      this.fs.copy(
+        this.templatePath("wct.conf.json"),
+        this.destinationPath(`${this.props.elementName}/wct.conf.json`)
       );
     }
   }
