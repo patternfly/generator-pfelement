@@ -10,12 +10,12 @@
 
 <% for(let i = 0; i < attributes.length; i++) { %>
 @each $option in () {
-  :host([<% attributes[i] %>="#{$option}"]) {
+  :host([<%= attributes[i] %>="#{$option}"]) {
     // Custom styles applied by this attribute
   }
 }<% } %>
 
-.<%= elementClassName %> {<% for(let i = 0; i < slots.length; i++) { %>
+.<%= elementName %> {<% for(let i = 0; i < slots.length; i++) { %>
   &--<%= slots[i] %> {
     // Custom styles for this slot
   }<% } %>

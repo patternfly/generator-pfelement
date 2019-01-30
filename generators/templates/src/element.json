@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "<% readmeName %>",
-    "description": "<% description %>",
+    "title": "<%= readmeName %>",
+    "description": "<%= description %>",
     "type": "object",
-    "tag": "<% elementClassName %>",
-    "class": "<% elementClassName %>",
-    "category": "<% template_type %>",
+    "tag": "<%= elementName %>",
+    "class": "<%= elementClassName %>",
+    "category": "<%= template_type %>",
     "properties": {
       "slots": {
         "title": "Slots",
@@ -13,12 +13,12 @@
         "type": "object",
         "properties": {<% for(let i = 0; i < slots.length; i++) { %>
           "<% slots[i] %>": {
-            "title": "<% slots[i].toUpperCase() %>",
+            "title": "<%= slots[i].toUpperCase() %>",
             "type": "array",
             "namedSlot": true,
             "maxItems": 3,
             "items": {
-              "title": "<% slots[i].toUpperCase() %> item",
+              "title": "<%= slots[i].toUpperCase() %> item",
               "oneOf": [{
                 "$ref": "raw"
               }]
@@ -31,7 +31,7 @@
         "type": "object",
         "properties": {<% for(let i = 0; i < attributes.length; i++) { %>
           "<% attributes[i] %>": {
-            "title": "<% attributes[i].toUpperCase() %>",
+            "title": "<%= attributes[i].toUpperCase() %>",
             "type": "string",
             "enum": [],
             "default": "",

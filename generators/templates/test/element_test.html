@@ -8,18 +8,46 @@
     <script type="module" src="../<%= elementName %>.js"></script>
   </head>
   <body>
-
     <<%= elementName %>>
-      This is the element content.
+      <h2>This is <%= elementName %></h2>
+      <!-- Slots -->
+      <% for(let i = 0; i < slots.length; i++) { %>
+      <div slot="<% slots[i] %>"><% _.capitalize(slots[i]) %> slot</div>
+      <% } %>
     </<%= elementName %>>
 
+    <!-- Preview different properties --><% for(let i = 0; i < attributes.length; i++) { %>
+    <<%= elementName %> <% attributes[i] %>="">
+      <h2>This is <%= elementName %></h2>
+      <!-- Slots -->
+      <% for(let i = 0; i < slots.length; i++) { %>
+      <div slot="<% slots[i] %>"><% _.capitalize(slots[i]) %> slot</div>
+      <% } %>
+    </<%= elementName %>><% } %>
+
     <script>
-      suite('<<%= elementName %>>', () => {
-        test('it should upgrade', () => {
-          assert.instanceOf(document.querySelector('<%= name %>'), customElements.get("<%= name %>", '<%= elementName %> should be an instance of <%= camelCaseName %>'));
+      const elements = [...document.querySelectorAll("<%= elementName %>")];
+
+      suite("<<%= elementName %>>", () => {
+        test("it should upgrade", () => {
+          assert.instanceOf(
+            document.querySelector("<%= name %>"),
+            customElements.get("<%= name %>"),
+            "<%= elementName %> should be an instance of <%= camelCaseName %>"
+          );
         });
 
-        // you need to write more tests!!!
+        // Write tests for each attribute<% for(let i = 0; i < attributes.length; i++) { %>
+        test("<%= attributes[i] %> attribute is applied correctly", () => {
+          // Test that the attribute applied correctly
+          // assert.equal();
+        });<% } %>
+
+        // Write tests for each slot<% for(let i = 0; i < slots.length; i++) { %>
+        test("<%= slots[i] %> slot is working correctly", () => {
+          // Test that the attribute applied correctly
+          // assert.equal();
+        });<% } %>
 
       });
     </script>
