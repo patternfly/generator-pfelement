@@ -10,4 +10,4 @@ yo pfelement
 
 ## Local testing
 
-To test your generator updates locally, run `npm link`.  This will add your generator to the global scope and enable you to test your changes.  Once that is done you can use `yo rhelement` to kick off the generator.
+To test your generator updates locally, run `npm link`.  This will add your generator to the global scope and enable you to test your changes.  Once that is done you can use `yo pfelement` to kick off the generator.
