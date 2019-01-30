@@ -1,11 +1,11 @@
 {
-  "name": "@rhelements/<%= elementName %>",
-  "rhelement": {
+  "name": "@patternfly/<%= elementName %>",
+  "pfelement": {
     "className": "<%= elementClassName %>",
     "elementName": "<%= elementName %>"
   },
-  "version": "<%= rhelementVersion %>",
-  "description": "<%= readmeName %> element for RHElements",
+  "version": "<%= pfelementVersion %>",
+  "description": "<%= readmeName %> element for PatternFly Elements",
   "repository": {
     "type": "git",
     "url": ""
@@ -24,8 +24,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= rhSassVersion %>",<% } %>
-    "@rhelements/rhelement": "<%= rhelementVersion %>"
+    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= pfeSassVersion %>",<% } %>
+    "@patternfly/pfelement": "<%= pfelementVersion %>"
   },
-  "generator-rhelement-version": "<%= generatorRhelementVersion %>"
+  "generator-pfelement-version": "<%= generatorPfelementVersion %>"
 }
