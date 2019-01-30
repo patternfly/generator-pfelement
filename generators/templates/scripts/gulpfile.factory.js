@@ -122,10 +122,9 @@ ${html}\`;
       .on("change", browserSync.reload);
   });
 
-  // gulp.task("bundle", shell.task("../../node_modules/.bin/rollup -c"));
+  gulp.task("bundle", shell.task("./node_modules/.bin/rollup -c"));
 
-  // const buildTasks = ["merge", ...precompile, "compile", "bundle"];
-  const buildTasks = ["merge", ...precompile, "compile"];
+  const buildTasks = ["merge", ...precompile, "compile", "bundle"];
 
   gulp.task("build", gulp.series(...buildTasks));
 

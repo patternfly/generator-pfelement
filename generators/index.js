@@ -104,6 +104,9 @@ module.exports = class extends Generator {
       const gulpFactoryLocation = isPfelement
         ? "../../scripts/gulpfile.factory.js"
         : "./scripts/gulpfile.factory.js";
+      const rollupConfigLocation = isPfelement
+        ? "../../scripts/rollup.config.factory.js"
+        : "./scripts/rollup.config.factory.js";
 
       this.props = {
         author: answers.author,
@@ -127,6 +130,7 @@ module.exports = class extends Generator {
         isPfelement: isPfelement,
         packageName: packageName,
         gulpFactoryLocation: gulpFactoryLocation
+        rollupConfigLocation: rollupConfigLocation,
       };
 
       if (answers.useSass) {
@@ -178,14 +182,12 @@ module.exports = class extends Generator {
       );
     }
 
-    if (isPfelement) {
-      if (fs.existsSync(this.templatePath("rollup.config.js"))) {
-        this.fs.copyTpl(
-          this.templatePath("rollup.config.js"),
-          this.destinationPath(`${this.props.elementName}/rollup.config.js`),
-          this.props
-        );
-      }
+    if (fs.existsSync(this.templatePath("rollup.config.js"))) {
+      this.fs.copyTpl(
+        this.templatePath("rollup.config.js"),
+        this.destinationPath(`${this.props.elementName}/rollup.config.js`),
+        this.props
+      );
     }
 
     if (fs.existsSync(this.templatePath(demoTemplatePath))) {
