@@ -23,7 +23,7 @@ class <%= elementClassName %> extends PFElement {
 
 <%_ if (attributes.length > 0) { _%>
   static get observedAttributes() {
-    return [<%_ _.join(attributes, ", ") _%>];
+    return [<%_ attributes.join(", ") _%>];
   }
 <%_ } else { _%>
   // static get observedAttributes() {
@@ -33,7 +33,7 @@ class <%= elementClassName %> extends PFElement {
 
   // Declare the type of this component
   static get PfeType() {
-    return PFElement.PfeTypes.<%= _capitalize(template_type) %>;
+    return PFElement.PfeTypes.<%= _.capitalize(template_type) %>;
   }
 
   constructor() {

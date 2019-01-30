@@ -24,6 +24,7 @@ module.exports = class extends Generator {
   async prompting() {
     // @TODO this is not rendering in the right order
     // asciify("PatternFly Elements", { font: "standard", color: "gray" }, (err, res) => this.log("\n" + res + "\n\n"));
+    yosay("Welcome to the PatternFly Elements generator!");
 
     return this.prompt([
       {
@@ -74,7 +75,7 @@ module.exports = class extends Generator {
         type: "list",
         name: "sassLibrary",
         when: answers => {
-          return answers.useSass && !config.has(sassLibrary);
+          return answers.useSass; // && !config.has("sassLibrary")
         },
         message: "Do want to use existing Sass dependencies?",
         choices: [
@@ -102,7 +103,7 @@ module.exports = class extends Generator {
         message: "List any attributes for the element, separated by commas (i.e., color, priority)",
         // validate: function(answer) {},
         filter: function(response) {
-          return _.split(response, ",");
+          return _.split(response.replace(" ", ""), ",");
         }
       },
       {
@@ -111,7 +112,7 @@ module.exports = class extends Generator {
         message: "List any slot names for the element, separated by commas (i.e., header, footer)",
         // validate: function(answer) {},
         filter: function(response) {
-          return _.split(response, ",");
+          return _.split(response.replace(" ", ""), ",");
         }
       }
     ]).then(answers => {
@@ -138,6 +139,7 @@ module.exports = class extends Generator {
 
       this.props = {
         author: answers.author,
+        template_type: answers.template_type,
         name: answers.name,
         elementName: answers.name,
         elementClassName: _

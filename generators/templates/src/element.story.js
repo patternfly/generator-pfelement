@@ -33,15 +33,15 @@ stories.add(<%= elementClassName %>.tag, () => {
   // Trigger the auto generation of the knobs for slots
   config.has = tools.autoContentKnobs(slots, bridge);
 
-  //-- Build your slots here using config.has["slot-name"] to get user content
+  //-- Build your slots here using config.has["<%= slots[0] %>"] to get user content
   // prettier-ignore
   config.slots = [{
     content: defaultContent
   }];
 
   //-- Reset default values show they don't render in the markup
-  // if (config.prop["prop-name"] === "default") {
-  //   config.prop["prop-name"] = "";
+  // if (config.prop["<%= attributes[0] %>"] === "default") {
+  //   config.prop["<%= attributes[0] %>"] = "";
   // }
 
   const rendered = template(config);
