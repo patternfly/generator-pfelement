@@ -139,6 +139,7 @@ module.exports = class extends Generator {
         : "";
 
       this.props = {
+        _: _,
         author: answers.author,
         template_type: answers.template_type,
         name: answers.name,
