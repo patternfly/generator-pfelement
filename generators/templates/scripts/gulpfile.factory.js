@@ -17,6 +17,7 @@ module.exports = function factory({
   const shell = require("gulp-shell");
   const banner = require("gulp-banner");
   const browserSync = require("browser-sync").create();
+  const compression = require("compression");
 
   gulp.task("merge", () => {
     return gulp
@@ -109,7 +110,8 @@ ${html}\`;
   gulp.task("browser-sync", () => {
     browserSync.init({
       server: {
-        baseDir: "./"
+        baseDir: "./",
+        middleware: [compression()]
       },
       startPath: "/demo/"
     });
