@@ -1,6 +1,7 @@
 # PatternFly Elements Generator
 
 ```
+npm install -g generator-pfelement
 yo pfelement
 ```
 
