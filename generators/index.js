@@ -11,6 +11,24 @@ let demoTemplatePath;
 let readmePath;
 
 module.exports = class extends Generator {
+  constructor(args, opts) {
+      super(args, opts);
+
+      this.option(
+          "type",
+          {
+              desc: "The element type, either 'standalone' or 'pfelement'.  Standalone elements will have all build tooling included, whereas 'pfelement' elements will expect to get their build tooling from the PatternFly Elements monorepo.",
+              type: (val) => {
+                  if (!["standalone", "pfelement"].includes(val)) {
+                      throw new Error("Type must be either 'standalone' or 'pfelement'");
+                  }
+                  return val;
+              },
+              alias: "t",
+              default: "standalone"
+          }
+      );
+  }
   prompting() {
     return this.prompt([
       {
@@ -26,7 +44,9 @@ module.exports = class extends Generator {
             name: "A standalone web component that extends PFElement",
             value: "standalone"
           }
-        ]
+        ],
+        default: this.options.type,
+        when: () => !this.options.type
       },
       {
         type: "input",
