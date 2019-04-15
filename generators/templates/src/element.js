@@ -1,4 +1,4 @@
-import PFElement from "../pfelement/pfelement.js";
+import PFElement from "<%= pfeElementLocation %>";
 
 class <%= elementClassName %> extends PFElement {
   static get tag() {
