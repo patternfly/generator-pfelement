@@ -13,7 +13,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "index.js",
+  "main": "<%= elementName %>.umd.js",
+  "module": "<%= elementName %>.js",
   <% if (isPfelement) { %>"scripts": {
     "build": "../../node_modules/.bin/gulp && ../../node_modules/.bin/prettier --ignore-path ../../.prettierignore --write '**/*.{js,json}'",
     "dev": "../../node_modules/.bin/gulp dev",
