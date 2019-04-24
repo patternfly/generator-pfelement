@@ -15,12 +15,32 @@ const asciify = require("asciify");
 
 const packageJson = require("../package.json");
 
+let isPfelement = false;
+let demoTemplatePath;
+let readmePath;
+
 // Check for a config file to look for defaults
 if(fs.existsSync("../project.config.json")) {
   config.set("../project.config.json");
 }
 
 module.exports = class extends Generator {
+  constructor(args, opts) {
+      super(args, opts);
+
+      this.option("type", {
+          desc: "The element type, either 'standalone' or 'pfelement'.  Standalone elements will have all build tooling included, whereas 'pfelement' elements will expect to get their build tooling from the PatternFly Elements monorepo.",
+          type: (val) => {
+              if (!["standalone", "pfelement"].includes(val)) {
+                  throw new Error("Type must be either 'standalone' or 'pfelement'");
+              }
+              return val;
+          },
+          alias: "t",
+          default: "standalone"
+      });
+  }
+
   async prompting() {
     const done = this.async();
     // @TODO this is not rendering in the right order
@@ -28,6 +48,23 @@ module.exports = class extends Generator {
     this.log( yosay(`Welcome to the ${ chalk.red( "PatternFly Elements" ) } generator!`) );
 
     this.prompt([
+      {
+        type: "list",
+        name: "type",
+        message: "What would you like to create?",
+        choices: [
+          {
+            name: "A new PFElement in the core PatternFly Elements library",
+            value: "pfelement"
+          },
+          {
+            name: "A standalone web component that extends PFElement",
+            value: "standalone"
+          }
+        ],
+        default: this.options.type,
+        when: () => !this.options.type
+      },
       {
         type: "list",
         name: "template_type",
@@ -138,6 +175,29 @@ module.exports = class extends Generator {
         ? require(this.destinationPath("pfe-sass/package.json"))
         : "";
 
+      isPfelement = answers.type === "pfelement";
+      demoTemplatePath = isPfelement
+        ? "demo/pfelement-index.html"
+        : "demo/standalone-index.html";
+      readmePath = isPfelement
+        ? "./pfelement-README.md"
+        : "./standalone-README.md";
+      const pfeElementLocation = isPfelement
+        ? "../pfelement/pfelement.js"
+        : "../@patternfly/pfelement/pfelement.js";
+      const packageName = isPfelement
+        ? `@patternfly/${answers.name}`
+        : `${answers.name}`;
+      const gulpFactoryLocation = isPfelement
+        ? "../../scripts/gulpfile.factory.js"
+        : "./scripts/gulpfile.factory.js";
+      const rollupConfigLocation = isPfelement
+        ? "../../scripts/rollup.config.factory.js"
+        : "./scripts/rollup.config.factory.js";
+      const testFileLocation = isPfelement
+        ? `../${answers.name}.js`
+        : `../node_modules/${answers.name}/${answers.name}.js`;
+
       this.props = {
         _: _,
         author: answers.author,
@@ -154,12 +214,18 @@ module.exports = class extends Generator {
         camelCaseName: _.camelCase(answers.name),
         useSass: answers.useSass,
         sassLibraryPkg: false,
-        sassLibraryPath: false,
+        sassLibraryLocation: false,
         generatorPfelementVersion: packageJson.version,
         pfelementVersion,
         pfeSassVersion,
+        pfeElementLocation: pfeElementLocation,
+        isPfelement: isPfelement,
+        packageName: packageName,
+        gulpFactoryLocation: gulpFactoryLocation,
+        rollupConfigLocation: rollupConfigLocation,
         attributes: answers.attributes,
-        slots: answers.slots
+        slots: answers.slots,
+        testFileLocation: testFileLocation
       };
 
       if (answers.useSass) {
@@ -168,7 +234,9 @@ module.exports = class extends Generator {
         }
 
         if (answers.sassLibrary && answers.sassLibrary.path) {
-          this.props.sassLibraryPath = answers.sassLibrary.path;
+          this.props.sassLibraryLocation = isPfelement
+            ? "../../pfe-sass/pfe-sass"
+            : "../node_modules/@patternfly/pfe-sass/pfe-sass";
         }
       }
 
@@ -197,13 +265,13 @@ module.exports = class extends Generator {
         );
       }
 
-      if (fs.existsSync(this.templatePath("README.md"))) {
-        this.fs.copyTpl(
-          this.templatePath("README.md"),
-          this.destinationPath(`${this.props.elementName}/README.md`),
-          this.props
-        );
-      }
+    if (fs.existsSync(this.templatePath(readmePath))) {
+      this.fs.copyTpl(
+        this.templatePath(readmePath),
+        this.destinationPath(`${this.props.elementName}/README.md`),
+        this.props
+      );
+    }
 
       if (fs.existsSync(this.templatePath("gulpfile.js"))) {
         this.fs.copyTpl(
@@ -221,13 +289,13 @@ module.exports = class extends Generator {
         );
       }
 
-      if (fs.existsSync(this.templatePath("demo/index.html"))) {
-        this.fs.copyTpl(
-          this.templatePath("demo/index.html"),
-          this.destinationPath(`${this.props.elementName}/demo/index.html`),
-          this.props
-        );
-      }
+    if (fs.existsSync(this.templatePath(demoTemplatePath))) {
+      this.fs.copyTpl(
+        this.templatePath(demoTemplatePath),
+        this.destinationPath(`${this.props.elementName}/demo/index.html`),
+        this.props
+      );
+    }
 
       if (fs.existsSync(this.templatePath("test/element_test.html"))) {
         this.fs.copyTpl(
@@ -247,6 +315,7 @@ module.exports = class extends Generator {
         );
       }
 
+    if (isPfelement) {
       if (fs.existsSync(this.templatePath("src/element.story.js"))) {
         this.fs.copyTpl(
           this.templatePath("src/element.story.js"),
@@ -256,6 +325,7 @@ module.exports = class extends Generator {
           this.props
         );
       }
+    }
 
       this.fs.copy(
         this.templatePath(".*"),
@@ -297,6 +367,18 @@ module.exports = class extends Generator {
           )
         );
       }
+    }
+
+    if (!isPfelement) {
+      this.fs.copy(
+        this.templatePath("scripts/*"),
+        this.destinationPath(`${this.props.elementName}/scripts`)
+      );
+
+      this.fs.copy(
+        this.templatePath("wct.conf.json"),
+        this.destinationPath(`${this.props.elementName}/wct.conf.json`)
+      );
     }
     catch ( error ) {
       console.log( error );
