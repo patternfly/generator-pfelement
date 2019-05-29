@@ -254,10 +254,13 @@ module.exports = class extends Generator {
       }
     }
 
-    this.fs.copy(
-      this.templatePath(".*"),
-      this.destinationPath(`${this.props.elementName}`)
-    );
+    // only copy hidden files for standalone elements.  PFElements don't need their own copies of babel config, editorconfig, etc.
+    if (!isPfelement) {
+      this.fs.copy(
+        this.templatePath(".*"),
+        this.destinationPath(`${this.props.elementName}`)
+      );
+    }
 
     if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
       this.fs.copy(
