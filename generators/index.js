@@ -243,11 +243,11 @@ module.exports = class extends Generator {
     }
 
     if (isPfelement) {
-      if (fs.existsSync(this.templatePath("src/element.story.js"))) {
+      if (fs.existsSync(this.templatePath("demo/element.story.js"))) {
         this.fs.copyTpl(
-          this.templatePath("src/element.story.js"),
+          this.templatePath("demo/element.story.js"),
           this.destinationPath(
-            `${this.props.elementName}/src/${this.props.elementName}.story.js`
+            `${this.props.elementName}/demo/${this.props.elementName}.story.js`
           ),
           this.props
         );
