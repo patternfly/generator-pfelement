@@ -108,7 +108,7 @@ module.exports = class extends Generator {
         ? require(this.destinationPath("pfe-sass/package.json"))
         : "";
 
-      isPfelement = answers.type === "pfelement";
+      isPfelement = this.options.type === "pfelement" || answers.type === "pfelement";
       demoTemplatePath = isPfelement
         ? "demo/pfelement-index.html"
         : "demo/standalone-index.html";
@@ -254,13 +254,10 @@ module.exports = class extends Generator {
       }
     }
 
-    // only copy hidden files for standalone elements.  PFElements don't need their own copies of babel config, editorconfig, etc.
-    if (!isPfelement) {
-      this.fs.copy(
-        this.templatePath(".*"),
-        this.destinationPath(`${this.props.elementName}`)
-      );
-    }
+    this.fs.copy(
+      this.templatePath(".*"),
+      this.destinationPath(`${this.props.elementName}`)
+    );
 
     if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
       this.fs.copy(
