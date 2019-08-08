@@ -11,31 +11,41 @@
         "title": "Slots",
         "description": "Definition of the supported slots",
         "type": "object",
-        "properties": {<% for(let i = 0; i < slots.length; i++) { %>
-          "<% slots[i] %>": {
-            "title": "<%= slots[i].toUpperCase() %>",
+        "properties": {
+          "default": {
+            "title": "Default slot",
+            "type": "array",
+            "namedSlot": false,
+            "items": {
+              "oneOf": [{
+                "$ref": "raw"
+              }]
+            }            
+          }<% for(let i = 0; i < slots.length; i++) { %>,
+          "<%= slots[i] %>": {
+            "title": "<%= _.capitalize(slots[i]) %>",
             "type": "array",
             "namedSlot": true,
             "maxItems": 3,
             "items": {
-              "title": "<%= slots[i].toUpperCase() %> item",
+              "title": "<%= _.capitalize(slots[i]) %> item",
               "oneOf": [{
                 "$ref": "raw"
               }]
             }
-          }
-        }<% if(slots.length > 1 && i < slots.length - 1) { %>, <% } } %>
+          }<% } %>
+        }
       },
       "attributes": {
         "title": "Attributes",
         "type": "object",
         "properties": {<% for(let i = 0; i < attributes.length; i++) { %>
-          "<% attributes[i] %>": {
-            "title": "<%= attributes[i].toUpperCase() %>",
+          "<%= attributes[i] %>": {
+            "title": "<%= _.capitalize(attributes[i]) %>",
             "type": "string",
             "enum": [],
             "default": "",
-            "observer": "_functionName"
+            "prefixed": true
           }<% if(attributes.length > 1 && i < attributes.length - 1) { %>, <% } } %>
         }
       }

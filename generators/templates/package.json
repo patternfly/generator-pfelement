@@ -5,6 +5,9 @@
     "elementName": "<%= elementName %>"
   },
   "version": "<%= pfelementVersion %>",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "<%= readmeName %> element for PatternFly Elements",
   "keywords": [
     "web-components",
@@ -15,9 +18,6 @@
     "url": "github:patternfly/patternfly-elements",
     "directory": "elements/<%= elementName %>"<% } else { %>
     "url": ""<% } %>
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "main": "<%= elementName %>.umd.js",
   "module": "<%= elementName %>.js",
@@ -35,10 +35,11 @@
   "author": {
     "name": "<%= author %>"
   },
+  "contributors": [],
   "license": "MIT",
   "dependencies": {
-    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= pfeSassVersion %>",<% } %>
-    "@patternfly/pfelement": "<%= pfelementVersion %>"
+    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= pfeSassVersion %>",<% } if (isPfelement) { %>
+    "@patternfly/pfelement": "<%= pfelementVersion %>"<% } %>
   },<% if (!isPfelement) { %>
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",

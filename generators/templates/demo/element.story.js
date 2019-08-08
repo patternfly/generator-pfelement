@@ -45,5 +45,5 @@ stories.add(<%= elementClassName %>.tag, () => {
   // }
 
   const rendered = template(config);
-  return styles + tools.preview(rendered);
+  return tools.preview(rendered);
 });
