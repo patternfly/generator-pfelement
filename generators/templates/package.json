@@ -11,11 +11,10 @@
     "html"
   ],
   "repository": {
-    "type": "git",
-    <% if (isPfelement) { %>"url": "github:patternfly/patternfly-elements",
+    "type": "git",<% if (isPfelement) { %>
+    "url": "github:patternfly/patternfly-elements",
     "directory": "elements/<%= elementName %>"<% } else { %>
-    "url": ""
-    <% } %>
+    "url": ""<% } %>
   },
   "publishConfig": {
     "access": "public"
