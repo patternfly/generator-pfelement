@@ -6,9 +6,15 @@
   },
   "version": "<%= pfelementVersion %>",
   "description": "<%= readmeName %> element for PatternFly Elements",
+  "keywords": [
+    "web-components",
+    "html"
+  ],
   "repository": {
-    "type": "git",
-    "url": ""
+    "type": "git",<% if (isPfelement) { %>
+    "url": "github:patternfly/patternfly-elements",
+    "directory": "elements/<%= elementName %>"<% } else { %>
+    "url": ""<% } %>
   },
   "publishConfig": {
     "access": "public"
