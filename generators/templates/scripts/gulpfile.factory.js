@@ -1,6 +1,5 @@
 module.exports = function factory({
-  elementName,
-  className,
+  pfelement: { elementName, className },
   precompile = []
 } = {}) {
   const fs = require("fs");
