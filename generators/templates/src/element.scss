@@ -6,34 +6,35 @@ $LOCAL: <%= _.trimStart(elementName, "pfe-") %>;
 
 :host {
   // Example local variable, using BEM format
-  --<%= elementName %>--Property: value;
+  // --<%= elementName %>--Property: value;
 
   display: block;
 }
 
 :host([hidden]) {
   display: none;
-}<%
+}<% if (attributes.length > 0) { %>
 
-for(let i = 0; i < attributes.length; i++) { %>
-
-// Custom styles applied by this attribute
+//-- Custom styles applied by attributes
+<%_ for(let i = 0; i < attributes.length; i++) { %>
 @each $option in () {
-  :host([<%= attributes[i] %>="#{$option}"]) {
+  :host([<% if (isPfelement) { %>pfe-<% } %><%= attributes[i] %>="#{$option}"]) {
     // Add styles here
   }
-}<% }
+}<% } %><% } _%>
 
-for(let i = 0; i < slots.length; i++) { %>
-
-// Custom styles applied to slot
+<%_ if (slots.length > 0) { %>
+//-- Custom styles applied to slot
+<%_ for(let i = 0; i < slots.length; i++) { %>
 ::slotted([slot="<%= elementName %>--<%= slots[i] %>"]) {
   // Add styles here
-}<% } %>
+}
+<% } } %>
 
-.<%= elementName %> {<% for(let i = 0; i < slots.length; i++) { %>
-  // Custom styles applied to slot's shadow element
+.<%= elementName %> {<% if (slots.length > 0) { %>
+  //-- Custom styles applied to slot's shadow element
+  <%_ for(let i = 0; i < slots.length; i++) { _%>
   &__<%= slots[i] %> {
     // Add styles here
-  }<% } %>
+  }<% } %><% } %>
 }

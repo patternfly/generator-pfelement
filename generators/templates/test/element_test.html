@@ -9,16 +9,18 @@
   </head>
   <body>
     <<%= elementName %>>
+      <!-- Default slot -->
       <h2>This is <%= elementName %></h2>
-      <!-- Slots --><% for(let i = 0; i < slots.length; i++) { %>
-      <div slot="<%= slots[i] %>"><%= slots[i].toUpperCase() %> slot</div><% } %>
+      <% if (slots.length > 0) { %><!-- Named slots --><% for(let i = 0; i < slots.length; i++) { %>
+      <div slot="<%= slots[i] %>"><%= slots[i].toUpperCase() %> slot</div><% } } %>
     </<%= elementName %>>
 
     <!-- Preview different properties --><% for(let i = 0; i < attributes.length; i++) { %>
     <<%= elementName %> <%= attributes[i] %>>
       <h2>This is <%= elementName %></h2><% for(let i = 0; i < slots.length; i++) { %>
       <div slot="<%= slots[i] %>"><%= slots[i].toUpperCase() %> slot</div><% } %>
-    </<%= elementName %>><% } %>
+    </<%= elementName %>>
+    <%_ } _%>
 
     <script>
       const elements = [...document.querySelectorAll("<%= elementName %>")];

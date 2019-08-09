@@ -26,7 +26,6 @@
             "title": "<%= _.capitalize(slots[i]) %>",
             "type": "array",
             "namedSlot": true,
-            "maxItems": 3,
             "items": {
               "title": "<%= _.capitalize(slots[i]) %> item",
               "oneOf": [{
@@ -34,7 +33,8 @@
               }]
             }
           }<% } %>
-        }
+        },
+        "required": ["default"]
       },
       "attributes": {
         "title": "Attributes",
@@ -45,9 +45,10 @@
             "type": "string",
             "enum": [],
             "default": "",
-            "prefixed": true
+            "prefixed": <% if (isPfelement) { %>true<% } else { %>false<% } %>
           }<% if(attributes.length > 1 && i < attributes.length - 1) { %>, <% } } %>
-        }
+        },
+        "required": []
       }
     },
     "required": ["slots", "attributes"],

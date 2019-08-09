@@ -141,13 +141,14 @@ module.exports = class extends Generator {
         message: "List any attributes for the element, separated by commas (i.e., color, priority)",
         // validate: function(answer) {},
         filter: function(response) {
-          return _.split(response.replace(" ", ""), ",");
+          // Strip any pfe prefixes, these are added dynamically
+          return _.split(response.replace("pfe-", "").replace(" ", ""), ",");
         }
       },
       {
         type: "input",
         name: "slots",
-        message: "List any slot names for the element, separated by commas (i.e., header, footer)",
+        message: "List any named slots for the element, separated by commas (i.e., header, footer)",
         // validate: function(answer) {},
         filter: function(response) {
           return _.split(response.replace(" ", ""), ",");

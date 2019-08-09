@@ -23,7 +23,7 @@ class <%= elementClassName %> extends PFElement {
 
 <%_ if (attributes.length > 0) { _%>
   static get observedAttributes() {
-    return [<%_ attributes.join(", ") _%>];
+    return [<% if (isPfelement) { %><%- _.join(attributes.map(item => `"pfe-${item}"`), ", ") %><% } else { %><%- _.join(attributes.map(item => `"${item}"`), ", ") %><% } %>];
   }
 <%_ } else { _%>
   // static get observedAttributes() {
@@ -37,13 +37,27 @@ class <%= elementClassName %> extends PFElement {
   }
 
   constructor() {
-    super(<%= elementClassName %>, { type: PfeBand.PfeType });
+    super(<%= elementClassName %>, { type: <%= elementClassName %>.PfeType });
+    
+    <%_ if (slots.length > 0) { for(let i = 0; i < slots.length; i++) { _%>
+    this._<%= slots[i] %> = this.shadowRoot.querySelector(`.${this.tag}__<%= slots[i] %>`);
+    <%_ } } _%>
   }
 
-  // connectedCallback() {
-  //   super.connectedCallback();
-  //   // If you need to initialize any attributes, do that here
-  // }
+  connectedCallback() {
+    super.connectedCallback();
+    // If you need to initialize any attributes, do that here
+    
+    <%_ if (slots.length > 0) { _%>
+      <%_ for(let i = 0; i < slots.length; i++) { _%>
+      this.<%= slots[i] %> = this.querySelector(`[slot="<%= slots[i] %>"]`);
+      <%_ } %>
+      <%_ for(let i = 0; i < slots.length; i++) { %>
+      // Add a slotchange listener to the lightDOM trigger
+      // this.<%= slots[i] %>.addEventListener("slotchange", this._init);
+      <%_ } _%>
+    <%_ } _%>
+  }
 
   // disconnectedCallback() {}
 
@@ -51,15 +65,6 @@ class <%= elementClassName %> extends PFElement {
   // Process the attribute change
   attributeChangedCallback(attr, oldValue, newValue) {
     super.attributeChangedCallback(attr, oldValue, newValue);
-    // Strip the prefix from the attribute
-    attr = attr.replace("pfe-", "");
-    // If the observer is defined in the attribute properties
-    if (this[attr] && this[attr].observer) {
-      // Get the observer function
-      let observer = this[this[attr].observer].bind(this);
-      // If it's a function, allow it to run
-      if (typeof observer === "function") observer(attr, oldValue, newValue);
-    }
   }
 <%_ } else { _%>
   // attributeChangedCallback(attr, oldValue, newValue) {}
@@ -68,4 +73,4 @@ class <%= elementClassName %> extends PFElement {
 
 PFElement.create(<%= elementClassName %>);
 
-export { <%= elementClassName %> as default };
+export default <%= elementClassName %>;

@@ -30,11 +30,11 @@
       <div slot="<%= slots[i] %>"><%= slots[i] %> slot</div><% } %>
     </<%= elementName %>>
 
-    <!-- Preview different properties --><% for(let i = 0; i < attributes.length; i++) { %>
-    <<%= elementName %> <%= attributes[i] %>="">
+    <% if (attributes.length > 0) { %><!-- Preview different properties --><% for(let i = 0; i < attributes.length; i++) { %>
+    <<%= elementName %> <%= attributes[i] %>>
       <h2>This is <%= elementName %></h2><% for(let i = 0; i < slots.length; i++) { %>
       <div slot="<%= slots[i] %>"><%= slots[i] %> slot</div><% } %>
     </<%= elementName %>>
-    <% } %>
+    <% } } %>
   </body>
 </html>
