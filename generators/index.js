@@ -288,11 +288,6 @@ module.exports = class extends Generator {
           );
         }
 
-        this.fs.copy(
-          this.templatePath(".*"),
-          this.destinationPath(`${this.props.elementName}`)
-        );
-
         if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
           this.fs.copy(
             this.templatePath("LICENSE.txt"),
@@ -399,6 +394,12 @@ module.exports = class extends Generator {
           this.fs.copy(
             this.templatePath("wct.conf.json"),
             this.destinationPath(`${this.props.elementName}/wct.conf.json`)
+          );
+
+          // PatternFly Elements don't need dot files b/c they're in the monorepo
+          this.fs.copy(
+            this.templatePath(".*"),
+            this.destinationPath(`${this.props.elementName}`)
           );
         }
       }
