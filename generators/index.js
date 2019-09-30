@@ -252,12 +252,13 @@ module.exports = class extends Generator {
           this.props
         );
       }
+    } else {
+      // if a standalone element, copy the dot files (PFElements dont need them; they're in the PFE monorepo)
+      this.fs.copy(
+        this.templatePath(".*"),
+        this.destinationPath(`${this.props.elementName}`)
+      );
     }
-
-    this.fs.copy(
-      this.templatePath(".*"),
-      this.destinationPath(`${this.props.elementName}`)
-    );
 
     if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
       this.fs.copy(
