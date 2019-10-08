@@ -31,6 +31,6 @@
     "yeoman-generator": "^1.1.1"
   },
   "bugs": {
-    "url" : "https://github.com/patternfly/generator-pfelement/issues"
+    "url": "https://github.com/patternfly/generator-pfelement/issues"
   }
 }
