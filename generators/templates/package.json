@@ -67,6 +67,6 @@
   },<% } %>
   "generator-pfelement-version": "<%= generatorPfelementVersion %>",
   "bugs": {
-    "url" : "<%= bugsUrl %>"
+    "url" : "https://github.com/patternfly/patternfly-elements/issues"
   }
 }

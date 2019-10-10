@@ -155,7 +155,6 @@ module.exports = class extends Generator {
         gulpFactoryLocation: gulpFactoryLocation,
         rollupConfigLocation: rollupConfigLocation,
         testFileLocation: testFileLocation,
-        bugsUrl: packageJson.bugs.url
       };
 
       if (answers.useSass) {
