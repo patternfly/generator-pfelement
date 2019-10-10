@@ -67,6 +67,6 @@
   },<% } %>
   "generator-pfelement-version": "<%= generatorPfelementVersion %>",<% if (!isPfelement) { %>
   "bugs": {
-    "url" : "https://github.com/patternfly/patternfly-elements/issues"
+    "url" : "https://github.com/patternfly/patternfly-elements/issues?q=is%3Aissue+is%3Aopen+<%= elementName %>"
   }<% } %>
 }
