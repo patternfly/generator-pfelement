@@ -66,5 +66,8 @@
     "wct-browser-legacy": "^1.0.1",
     "web-component-tester": "^6.7.1"
   },<% } %>
-  "generator-pfelement-version": "<%= generatorPfelementVersion %>"
+  "generator-pfelement-version": "<%= generatorPfelementVersion %>"<% if (isPfelement) { %>,
+  "bugs": {
+    "url" : "https://github.com/patternfly/patternfly-elements/issues?q=is%3Aissue+is%3Aopen+<%= elementName %>"
+  }<% } %>
 }
