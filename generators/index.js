@@ -85,7 +85,7 @@ module.exports = class extends Generator {
             name: "pfe-sass",
             value: {
               pkg: "@patternfly/pfe-sass",
-              path: "pfe-sass/pfe-sass"
+              path: "pfe-sass/dist/pfe-sass"
             }
           },
           {
@@ -116,8 +116,8 @@ module.exports = class extends Generator {
         ? "./pfelement-README.md"
         : "./standalone-README.md";
       const pfeElementLocation = isPfelement
-        ? "../pfelement/pfelement.js"
-        : "../@patternfly/pfelement/pfelement.js";
+        ? "../pfelement/dist/pfelement.js"
+        : "../@patternfly/pfelement/dist/pfelement.js";
       const packageName = isPfelement
         ? `@patternfly/${answers.name}`
         : `${answers.name}`;
@@ -128,8 +128,8 @@ module.exports = class extends Generator {
         ? "../../scripts/rollup.config.factory.js"
         : "./scripts/rollup.config.factory.js";
       const testFileLocation = isPfelement
-        ? `../${answers.name}.js`
-        : `../node_modules/${answers.name}/${answers.name}.js`;
+        ? `../dist/${answers.name}.js`
+        : `../node_modules/${answers.name}/dist/${answers.name}.js`;
 
       this.props = {
         author: answers.author,
@@ -164,7 +164,7 @@ module.exports = class extends Generator {
 
         if (answers.sassLibrary && answers.sassLibrary.path) {
           this.props.sassLibraryLocation = isPfelement
-            ? "../../pfe-sass/pfe-sass"
+            ? "../../pfe-sass/dist/pfe-sass"
             : "../node_modules/@patternfly/pfe-sass/pfe-sass";
         }
       }
