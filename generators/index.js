@@ -85,7 +85,7 @@ module.exports = class extends Generator {
             name: "pfe-sass",
             value: {
               pkg: "@patternfly/pfe-sass",
-              path: "pfe-sass/dist/pfe-sass"
+              path: "pfe-sass/pfe-sass"
             }
           },
           {
@@ -164,7 +164,7 @@ module.exports = class extends Generator {
 
         if (answers.sassLibrary && answers.sassLibrary.path) {
           this.props.sassLibraryLocation = isPfelement
-            ? "../../pfe-sass/dist/pfe-sass"
+            ? "../../pfe-sass/pfe-sass"
             : "../node_modules/@patternfly/pfe-sass/pfe-sass";
         }
       }
