@@ -116,8 +116,8 @@ module.exports = class extends Generator {
         ? "./pfelement-README.md"
         : "./standalone-README.md";
       const pfeElementLocation = isPfelement
-        ? "../pfelement/dist/pfelement.js"
-        : "../@patternfly/pfelement/dist/pfelement.js";
+        ? "../../pfelement/dist/pfelement.js"
+        : "../../@patternfly/pfelement/dist/pfelement.js";
       const packageName = isPfelement
         ? `@patternfly/${answers.name}`
         : `${answers.name}`;
