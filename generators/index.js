@@ -102,6 +102,7 @@ module.exports = class extends Generator {
       )
         ? require(this.destinationPath("pfelement/package.json"))
         : "";
+
       const { version: pfeSassVersion } = fs.existsSync(
         this.destinationPath("pfe-sass/package.json")
       )
@@ -270,7 +271,8 @@ module.exports = class extends Generator {
     if (fs.existsSync(this.templatePath("CHANGELOG.md"))) {
       this.fs.copy(
         this.templatePath("CHANGELOG.md"),
-        this.destinationPath(`${this.props.elementName}/CHANGELOG.md`)
+        this.destinationPath(`${this.props.elementName}/CHANGELOG.md`),
+        this.props
       );
     }
 
