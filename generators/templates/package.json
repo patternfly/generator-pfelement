@@ -1,11 +1,17 @@
 {
   "name": "<%= packageName %>",
+  "description": "<%= readmeName %> element for PatternFly Elements",
   "pfelement": {
     "className": "<%= elementClassName %>",
-    "elementName": "<%= elementName %>"
+    "elementName": "<%= elementName %>",
+    "files": {
+      "styles": "./src/<%= elementName %>.<% if (useSass) { %>scss<% } else { %>css<% } %>",
+      "template": "./src/<%= elementName %>.html",
+      "js": "./src/<%= elementName %>.js"
+    },
+    "assets": []
   },
   "version": "<%= pfelementVersion %>",
-  "description": "<%= readmeName %> element for PatternFly Elements",
   "keywords": [
     "web-components",
     "html"
@@ -19,12 +25,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "<%= elementName %>.umd.js",
-  "module": "<%= elementName %>.js",
-  "files": [
-    "<%= elementName %>.*js",
-    "<%= elementName %>.*js.map",
-  ],
+  "main": "./dist/<%= elementName %>.umd.js",
+  "module": "./dist/<%= elementName %>.js",
+  "unpkg": "./dist/<%= elementName %>.umd.min.js",
+  "files": [ "dist" ],
   <% if (isPfelement) { %>"scripts": {
     "build": "../../node_modules/.bin/gulp && ../../node_modules/.bin/prettier --ignore-path ../../.prettierignore --write '**/*.{js,json}'",
     "dev": "../../node_modules/.bin/gulp dev",
