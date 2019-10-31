@@ -1,5 +1,5 @@
-## Release ( TBD )
+## <%= pfelementVersion %> ( TBD )
 
-Tag: [release](url)
+Tag: [<%= pfelementVersion %>](https://github.com/patternfly/patternfly-elements/releases/tag/<%= pfelementVersion %>)
 
 - [code](url) Description

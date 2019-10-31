@@ -267,6 +267,13 @@ module.exports = class extends Generator {
       );
     }
 
+    if (fs.existsSync(this.templatePath("CHANGELOG.md"))) {
+      this.fs.copy(
+        this.templatePath("CHANGELOG.md"),
+        this.destinationPath(`${this.props.elementName}/CHANGELOG.md`)
+      );
+    }
+
     if (
       this.props.useSass &&
       fs.existsSync(this.templatePath("src/element.scss"))
@@ -305,6 +312,11 @@ module.exports = class extends Generator {
       this.fs.copy(
         this.templatePath("wct.conf.json"),
         this.destinationPath(`${this.props.elementName}/wct.conf.json`)
+      );
+
+      this.fs.copy(
+        this.templatePath("DISCOVERY.md"),
+        this.destinationPath(`${this.props.elementName}`)
       );
     }
   }
