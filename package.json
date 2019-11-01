@@ -28,7 +28,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "yeoman-generator": "^1.1.1"
   },
   "bugs": {
