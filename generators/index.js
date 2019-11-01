@@ -102,6 +102,7 @@ module.exports = class extends Generator {
       )
         ? require(this.destinationPath("pfelement/package.json"))
         : "";
+
       const { version: pfeSassVersion } = fs.existsSync(
         this.destinationPath("pfe-sass/package.json")
       )
@@ -116,8 +117,8 @@ module.exports = class extends Generator {
         ? "./pfelement-README.md"
         : "./standalone-README.md";
       const pfeElementLocation = isPfelement
-        ? "../pfelement/pfelement.js"
-        : "../@patternfly/pfelement/pfelement.js";
+        ? "../../pfelement/dist/pfelement.js"
+        : "../../@patternfly/pfelement/dist/pfelement.js";
       const packageName = isPfelement
         ? `@patternfly/${answers.name}`
         : `${answers.name}`;
@@ -128,8 +129,8 @@ module.exports = class extends Generator {
         ? "../../scripts/rollup.config.factory.js"
         : "./scripts/rollup.config.factory.js";
       const testFileLocation = isPfelement
-        ? `../${answers.name}.js`
-        : `../node_modules/${answers.name}/${answers.name}.js`;
+        ? `../dist/${answers.name}.js`
+        : `../node_modules/${answers.name}/dist/${answers.name}.js`;
 
       this.props = {
         author: answers.author,
@@ -267,6 +268,14 @@ module.exports = class extends Generator {
       );
     }
 
+    if (fs.existsSync(this.templatePath("CHANGELOG.md"))) {
+      this.fs.copy(
+        this.templatePath("CHANGELOG.md"),
+        this.destinationPath(`${this.props.elementName}/CHANGELOG.md`),
+        this.props
+      );
+    }
+
     if (
       this.props.useSass &&
       fs.existsSync(this.templatePath("src/element.scss"))
@@ -305,6 +314,11 @@ module.exports = class extends Generator {
       this.fs.copy(
         this.templatePath("wct.conf.json"),
         this.destinationPath(`${this.props.elementName}/wct.conf.json`)
+      );
+
+      this.fs.copy(
+        this.templatePath("DISCOVERY.md"),
+        this.destinationPath(`${this.props.elementName}`)
       );
     }
   }

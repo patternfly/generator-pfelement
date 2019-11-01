@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/polymer";
-import "../<%= elementName %>";
+import "../dist/<%= elementName %>";
 
 storiesOf("<%= readmeName %>", module).add(
   "<%= elementName %>",
