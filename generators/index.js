@@ -166,39 +166,40 @@ module.exports = class extends Generator {
         // Trim the whitespace
         name = name.trim();
 
-        const { version: pfelementVersion } = fs.existsSync(
-          this.destinationPath("pfelement/package.json")
-        )
-          ? require(this.destinationPath("pfelement/package.json"))
-          : "";
-        const { version: pfeSassVersion } = fs.existsSync(
-          this.destinationPath("pfe-sass/package.json")
-        )
-          ? require(this.destinationPath("pfe-sass/package.json"))
-          : "";
+      const { version: pfelementVersion } = fs.existsSync(
+        this.destinationPath("pfelement/package.json")
+      )
+        ? require(this.destinationPath("pfelement/package.json"))
+        : "";
 
-        isPfelement = this.options.type === "pfelement" || answers.type === "pfelement";
-        demoTemplatePath = isPfelement
-          ? "demo/pfelement-index.html"
-          : "demo/standalone-index.html";
-        readmePath = isPfelement
-          ? "./pfelement-README.md"
-          : "./standalone-README.md";
-        const pfeElementLocation = isPfelement
-          ? "../pfelement/pfelement.js"
-          : "../@patternfly/pfelement/pfelement.js";
-        const packageName = isPfelement
-          ? `@patternfly/${answers.name}`
-          : `${answers.name}`;
-        const gulpFactoryLocation = isPfelement
-          ? "../../scripts/gulpfile.factory.js"
-          : "./scripts/gulpfile.factory.js";
-        const rollupConfigLocation = isPfelement
-          ? "../../scripts/rollup.config.factory.js"
-          : "./scripts/rollup.config.factory.js";
-        const testFileLocation = isPfelement
-          ? `../${answers.name}.js`
-          : `../node_modules/${answers.name}/${answers.name}.js`;
+      const { version: pfeSassVersion } = fs.existsSync(
+        this.destinationPath("pfe-sass/package.json")
+      )
+        ? require(this.destinationPath("pfe-sass/package.json"))
+        : "";
+
+      isPfelement = this.options.type === "pfelement" || answers.type === "pfelement";
+      demoTemplatePath = isPfelement
+        ? "demo/pfelement-index.html"
+        : "demo/standalone-index.html";
+      readmePath = isPfelement
+        ? "./pfelement-README.md"
+        : "./standalone-README.md";
+      const pfeElementLocation = isPfelement
+        ? "../../pfelement/dist/pfelement.js"
+        : "../../@patternfly/pfelement/dist/pfelement.js";
+      const packageName = isPfelement
+        ? `@patternfly/${answers.name}`
+        : `${answers.name}`;
+      const gulpFactoryLocation = isPfelement
+        ? "../../scripts/gulpfile.factory.js"
+        : "./scripts/gulpfile.factory.js";
+      const rollupConfigLocation = isPfelement
+        ? "../../scripts/rollup.config.factory.js"
+        : "./scripts/rollup.config.factory.js";
+      const testFileLocation = isPfelement
+        ? `../dist/${answers.name}.js`
+        : `../node_modules/${answers.name}/dist/${answers.name}.js`;
 
         this.props = {
           _: _,
@@ -253,77 +254,58 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    const files = [{
+      template: "package.json",
+      path: `${this.props.elementName}/package.json`
+    }, {
+      template: "DISCOVERY.md",
+      path: `${this.props.elementName}/DISCOVERY.md`
+    }, {
+      template: readmePath,
+      path: `${this.props.elementName}/README.md`
+    }, {
+      template: "LICENSE.txt",
+      path: `${this.props.elementName}/LICENSE.txt`
+    }, {
+      template: "CHANGELOG.md",
+      path: `${this.props.elementName}/CHANGELOG.md`
+    }, {
+      template: "gulpfile.js",
+      path: `${this.props.elementName}/gulpfile.js`
+    }, {
+      template: "rollup.config.js",
+      path: `${this.props.elementName}/rollup.config.js`
+    }, {
+      template: demoTemplatePath,
+      path: `${this.props.elementName}/demo/index.html`
+    }, {
+      template: "src/element.js",
+      path: `${this.props.elementName}/src/${this.props.elementName}.js`
+    }, {
+      template: "src/element.html",
+      path: `${this.props.elementName}/src/${this.props.elementName}.html`
+    }, {
+      template: "src/element.json",
+      path: `${this.props.elementName}/src/${this.props.elementName}.json`
+    }, {
+      template: "test/element_test.html",
+      path: `${this.props.elementName}/test/${this.props.elementName}_test.html`
+    }, {
+      template: "test/element.html",
+      path: `${this.props.elementName}/test/index.html`
+    }];
 
     if (Object.keys(this.props).length > 0) {
       try {
-        if (fs.existsSync(this.templatePath("package.json"))) {
-          this.fs.copyTpl(
-            this.templatePath("package.json"),
-            this.destinationPath(`${this.props.elementName}/package.json`),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath(readmePath))) {
-          this.fs.copyTpl(
-            this.templatePath(readmePath),
-            this.destinationPath(`${this.props.elementName}/README.md`),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("gulpfile.js"))) {
-          this.fs.copyTpl(
-            this.templatePath("gulpfile.js"),
-            this.destinationPath(`${this.props.elementName}/gulpfile.js`),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("rollup.config.js"))) {
-          this.fs.copyTpl(
-            this.templatePath("rollup.config.js"),
-            this.destinationPath(`${this.props.elementName}/rollup.config.js`),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("LICENSE.txt"))) {
-          this.fs.copy(
-            this.templatePath("LICENSE.txt"),
-            this.destinationPath(`${this.props.elementName}/LICENSE.txt`)
-          );
-        }
-
-        if (isPfelement) {
-          if (fs.existsSync(this.templatePath("demo/element.story.js"))) {
+        files.forEach(file => {
+          if (fs.existsSync(this.templatePath(file.template))) {
             this.fs.copyTpl(
-              this.templatePath("demo/element.story.js"),
-              this.destinationPath(
-                `${this.props.elementName}/demo/${this.props.elementName}.story.js`
-              ),
+              this.templatePath(file.template),
+              this.destinationPath(file.path),
               this.props
             );
           }
-        }
-
-        if (fs.existsSync(this.templatePath(demoTemplatePath))) {
-          this.fs.copyTpl(
-            this.templatePath(demoTemplatePath),
-            this.destinationPath(`${this.props.elementName}/demo/index.html`),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("src/element.js"))) {
-          this.fs.copyTpl(
-            this.templatePath("src/element.js"),
-            this.destinationPath(
-              `${this.props.elementName}/src/${this.props.elementName}.js`
-            ),
-            this.props
-          );
-        }
+        });
 
         if (
           this.props.useSass &&
@@ -346,51 +328,23 @@ module.exports = class extends Generator {
         );
         }
 
-        if (fs.existsSync(this.templatePath("src/element.html"))) {
-          this.fs.copyTpl(
-            this.templatePath("src/element.html"),
-            this.destinationPath(
-              `${this.props.elementName}/src/${this.props.elementName}.html`
-            ),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("src/element.json"))) {
-          this.fs.copyTpl(
-            this.templatePath("src/element.json"),
-            this.destinationPath(
-              `${this.props.elementName}/src/${this.props.elementName}.json`
-            ),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("test/element_test.html"))) {
-          this.fs.copyTpl(
-            this.templatePath("test/element_test.html"),
-            this.destinationPath(
-              `${this.props.elementName}/test/${this.props.elementName}_test.html`
-            ),
-            this.props
-          );
-        }
-
-        if (fs.existsSync(this.templatePath("test/index.html"))) {
-          this.fs.copyTpl(
-            this.templatePath("test/index.html"),
-            this.destinationPath(`${this.props.elementName}/test/index.html`),
-            this.props
-          );
-        }
-
-        if (!isPfelement) {
+        if (isPfelement) {
+          if (fs.existsSync(this.templatePath("demo/element.story.js"))) {
+            this.fs.copyTpl(
+              this.templatePath("demo/element.story.js"),
+              this.destinationPath(
+                `${this.props.elementName}/demo/${this.props.elementName}.story.js`
+              ),
+              this.props
+            );
+          }
+        } else {
           this.fs.copyTpl(
             this.templatePath("scripts/*"),
             this.destinationPath(`${this.props.elementName}/scripts`),
             this.props
           );
-    
+
           this.fs.copy(
             this.templatePath("wct.conf.json"),
             this.destinationPath(`${this.props.elementName}/wct.conf.json`)

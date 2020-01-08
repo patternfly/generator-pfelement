@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/polymer";
 import * as bridge from "@storybook/addon-knobs/polymer";
 import * as tools from "../../../.storybook/utils.js";
 
-import <%= elementClassName %> from "../<%= elementName %>";
+import <%= elementClassName %> from "../dist/<%= elementName %>";
 
 const stories = storiesOf("<%= readmeName %>", module);
 
