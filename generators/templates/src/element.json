@@ -34,7 +34,7 @@
             }
           }<% } %>
         },
-        "required": ["default"]
+        "required": [ "default" ]
       },
       "attributes": {
         "title": "Attributes",
@@ -51,7 +51,7 @@
         "required": []
       }
     },
-    "required": ["slots", "attributes"],
+    "required": [ "slots", "attributes" ],
     "additionalProperties": false
   }
   

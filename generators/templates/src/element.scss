@@ -36,5 +36,6 @@ $LOCAL: <%= _.trimStart(elementName, "pfe-") %>;
   <%_ for(let i = 0; i < slots.length; i++) { _%>
   &__<%= slots[i] %> {
     // Add styles here
-  }<% } %><% } %>
+  }
+<% } } _%>
 }
