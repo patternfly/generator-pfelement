@@ -141,8 +141,8 @@ module.exports = class extends Generator {
         message: "List any attributes for the element, separated by commas (i.e., color, priority)",
         // validate: function(answer) {},
         filter: function(response) {
-          // Strip any pfe prefixes, these are added dynamically
-          return _.split(response.replace("pfe-", "").replace(" ", ""), ",");
+          // Strip any pfe prefixes, these are added dynamically, and remove any empty entries
+          return response.replace(/pfe-/g, "").split(",").filter(s => s.length);
         }
       },
       {
@@ -151,7 +151,8 @@ module.exports = class extends Generator {
         message: "List any named slots for the element, separated by commas (i.e., header, footer)",
         // validate: function(answer) {},
         filter: function(response) {
-          return _.split(response.replace(" ", ""), ",");
+          // remove whitespace, split on comma, and remove empty entries
+          return response.replace(/\s/g, "").split(",").filter(s => s.length);
         }
       }
     ]).then(answers => {
