@@ -9,3 +9,7 @@ yo pfelement
 2.  Enter the name of the element you want to create (Example: pfe-card)
 3.  Enter the name of the author
 4.  Componetize the web
+
+## Local testing
+
+To test your generator updates locally, run `npm link`.  This will add your generator to the global scope and enable you to test your changes.  Once that is done you can use `yo pfelement` to kick off the generator.

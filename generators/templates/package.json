@@ -45,8 +45,8 @@
   }],
   "license": "MIT",
   "dependencies": {
-    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= pfeSassVersion %>",<% } %>
-    "@patternfly/pfelement": "<%= pfelementVersion %>"
+    <% if (sassLibraryPkg) { %>"<%= sassLibraryPkg %>": "<%= pfeSassVersion %>",<% } if (isPfelement) { %>
+    "@patternfly/pfelement": "<%= pfelementVersion %>"<% } %>
   },<% if (!isPfelement) { %>
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.4",
