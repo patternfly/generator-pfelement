@@ -1,6 +1,6 @@
 {
   "name": "@patternfly/generator-pfelement",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Yeoman generator for creating PatternFly Elements",
   "repository": {
     "type": "git",
