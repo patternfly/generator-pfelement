@@ -29,9 +29,9 @@ Describe any events that are accessible external to the web component. There is 
 ## Dependencies
 Describe any dependent elements or libraries here too.
 
-Make sure you have [Polyserve][polyserve] and [Web Component Tester][web-component-tester] installed.
+Make sure you have [Web Component Tester][web-component-tester] installed.
 
-    npm install -g polyserve web-component-tester
+    npm install -g web-component-tester
 
 ## Dev
 
@@ -44,9 +44,3 @@ Make sure you have [Polyserve][polyserve] and [Web Component Tester][web-compone
 ## Build
 
     npm run build
-
-## Demo
-
-From the PFElements root directory, run:
-
-    npm run demo

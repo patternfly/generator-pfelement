@@ -27,7 +27,7 @@ module.exports = function factory({
     `${elementName}--*.min.css.map`,
     `${elementName}.json`
   ]);
-  
+
   // Dedupe any items
   files = files.filter((item,index) => files.indexOf(item) === index);
 
@@ -37,7 +37,8 @@ module.exports = function factory({
   const replace = require("gulp-replace");
   const clean = require("gulp-clean");
   const gulpif = require("gulp-if");
-  const gulpmatch = require("gulp-match");
+  const gulpmatch = require("gulp-match");<% if (!isPfelement) { %>
+  const browserSync = require("browser-sync").create();<% } %>
 
   // Rollup
   const shell = require("gulp-shell");
@@ -307,7 +308,7 @@ ${fs
       .pipe(dest(paths.temp));
   });
 
-  task("bundle", shell.task("../../node_modules/.bin/rollup -c"));
+  <% if (isPfelement) { %>task("bundle", shell.task("../../node_modules/.bin/rollup -c"));<% } else { %>task("bundle", shell.task("./node_modules/.bin/rollup -c"));<% } %>
 
   // Delete the temp directory
   task("clean:post", () => {
@@ -339,9 +340,20 @@ ${fs
 
   task("watch", () => {
     return watch(path.join(paths.source, "*"), series("build"));
-  });
+  });<% if (!isPfelement) { %>
 
-  task("dev", parallel("build", "watch"));
+  task("browser-sync", () => {
+    browserSync.init({
+      startPath: "./demo",
+      server: {
+        baseDir: "./"
+      }
+    });
+
+    watch("dist/**").on("change", browserSync.reload);
+  });<% } %>
+
+  <% if (isPfelement) { %>task("dev", parallel("build", "watch"));<% } else { %>task("dev", parallel("build", "watch", "browser-sync"));<% } %>
 
   task("default", series("build"));
 
